@@ -1,2 +1,2 @@
-# bank_system
+# Raciocinio Algorítmico
 [TDE 2] Sistema Bancário
