@@ -4,6 +4,11 @@ import argparse
 from database import create_connection, read_query, insert_user, execute_query
 from utility import confimar, affirmations
 
+from defaults.settings import Settings
+
+settings = Settings()
+db_file = settings.db_file
+
 CONFIRM = True
 
 
@@ -65,7 +70,7 @@ def mudar_senha(connection):
 
 
 def main():
-    connection = create_connection("users.sqlite")
+    connection = create_connection(db_file)
     if not connection:
         sys.exit(1)
 

@@ -1,7 +1,14 @@
 import sqlite3
 
-create_users_table = """
-CREATE TABLE IF NOT EXISTS users (
+from defaults.settings import Settings
+
+settings = Settings()
+
+db_file = settings.db_file
+db_name = settings.db_name
+
+create_users_table = f"""
+CREATE TABLE IF NOT EXISTS {db_name} (
   id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   name TEXT NOT NULL,
   job TEXT,
@@ -14,27 +21,27 @@ CREATE TABLE IF NOT EXISTS users (
 
 """
 
-create_transactions_table = """
+create_transactions_table = f"""
 CREATE TABLE IF NOT EXISTS transactions(
 id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
 sender INTEGER NOT NULL,
 receiver INTEGER NOT NULL,
 amount FLOAT,
 description TEXT,
-FOREIGN KEY (sender) REFERENCES users (id),
-FOREIGN KEY (receiver) REFERENCES users(id)
+FOREIGN KEY (sender) REFERENCES {db_name} (id),
+FOREIGN KEY (receiver) REFERENCES {db_name}(id)
 );
 """
 
-create_users = """
+create_users = f"""
 INSERT INTO
-    users(name, job, income, address, phone)
+    {db_name}(name, job, income, address, phone)
 VALUES 
     ('Vinicius', 'Programador', 10000, 'Rua Teste 123', '(41) 99999-8888'),
     ('Vinicius2', 'Desenvolvedor', 8000, 'Rua Teste 456', '(41) 98888-9999');
 """
 
-select_users = "SELECT * from users"
+select_users = f"SELECT * from users"
 
 
 def create_connection(database_name):
@@ -76,7 +83,7 @@ def _create_users(connection):
 def insert_user(connection, data: tuple):
     query = f"""
     INSERT INTO
-        users(name, job, income, address, phone, password)
+        {db_name}(name, job, income, address, phone, password)
     VALUES 
         {data};
     """
@@ -99,7 +106,7 @@ def _prepare_table(connection):
     _create_transactions_table(connection)
     dados1 = ("Teste", "Emprego", "Renda Mensal", "Endereço", "Telefone", "Teste123")
     insert_user(connection, dados1)
-    execute_query(connection, "UPDATE sqlite_sequence SET seq = 9999 WHERE NAME = 'users';")
+    execute_query(connection, f"UPDATE sqlite_sequence SET seq = 9999 WHERE NAME = '{db_name}';")
 
 
 def _read_users(connection):
@@ -116,7 +123,7 @@ def _read_sequence(connection):
 
 
 if __name__ == '__main__':
-    connection = create_connection("users.sqlite")
+    connection = create_connection(db_file)
     _prepare_table(connection)
     #dados = ("Vinicius3", "Engenheiro de Software", 11000, 'Rua Teste 999', '(41) 98765-4321')
     #insert_user(connection, dados)
