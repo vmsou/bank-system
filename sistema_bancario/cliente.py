@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from TDE2.sistema_bancario.database import create_connection
+from database import create_connection
 
 
 def saque(conta, senha):
