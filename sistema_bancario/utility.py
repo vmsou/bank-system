@@ -1,3 +1,14 @@
+class Logger:
+
+    def __init__(self, name):
+        self.name = name
+        self.enabled = True
+
+    def log(self, message):
+        if self.enabled:
+            print(f"[{self.name}] {message}")
+
+
 affirmations = ('sim', 's', 'si', 'y', 'yes')
 
 

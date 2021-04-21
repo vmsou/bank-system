@@ -2,12 +2,13 @@ import sys
 import argparse
 
 from database import create_connection, read_query, insert_user, execute_query
-from utility import confimar, affirmations
+from utility import confimar, affirmations, Logger
 
 from defaults.settings import Settings
 
 settings = Settings()
 db_file = settings.db_file
+ConsoleLogger = Logger("Console")
 
 CONFIRM = True
 
@@ -35,39 +36,39 @@ def cadastrar_conta(connection):
 
     if cadastrar.lower() in affirmations:
         dados = (name, job, renda, address, telefone, senha)
-        print(f"[Console] Cadastrando...")
+        ConsoleLogger.log("Cadastrando...")
         insert_user(connection, dados)
-        print("[Console] Cadastrado!")
+        ConsoleLogger.log("Cadastrado!")
 
     else:
-        print("[Console] Cancelando...")
+        ConsoleLogger.log("Cancelando...")
 
 
 def buscar_conta(connection, id=None, nome=None, info="*"):
     users = None
     if id:
-        print("[Console] Buscando por ID...")
+        ConsoleLogger.log("Buscando por ID...")
         users = read_query(connection, f"SELECT {info} FROM USERS WHERE ID = {id};")
     elif nome:
-        print("[Console] Buscando pelo nome...")
+        ConsoleLogger.log("Buscando pelo nome...")
         users = read_query(connection, f"SELECT {info} FROM USERS WHERE name LIKE '%{nome}%';")
     if users:
         print(", ".join(settings.info))
         for user in users:
             print(user)
     else:
-        print("[Console] Usuário não encontrado!")
+        ConsoleLogger.log("Usuário não encontrado!")
 
 
 def mudar_senha(connection):
     id = input('ID: ')
     user = read_query(connection,f"SELECT name FROM USERS WHERE ID = {id};")[0][0]
-    print(f"[Console] Mudando senha do usuario: {user}")
+    ConsoleLogger.log(f"Mudando senha do usuario: {user}")
     nova_senha = input("Nova senha: ")
     if nova_senha:
         query = f"UPDATE users SET password = '{nova_senha}' WHERE id = {id};"
         execute_query(connection, query)
-        print('[Console] Senha mudada.')
+        ConsoleLogger.log("Senha mudada.")
 
 
 def main():
@@ -82,6 +83,7 @@ def main():
     group = parser.add_mutually_exclusive_group()
 
     parser.add_argument('--disable_confirm', dest='disable_confirm', action='store_true')
+    parser.add_argument('--disable_log', dest='disable_log', action='store_true')
 
     group.add_argument('--cadastrar', dest='cadastrar', action='store_true')
     group.add_argument('--buscar', dest='buscar', action='store_true')
@@ -91,6 +93,9 @@ def main():
 
     if args.disable_confirm:
         CONFIRM = False
+
+    if args.disable_log:
+        ConsoleLogger.enabled = False
 
     if args.cadastrar:
         cadastrar_conta(connection)

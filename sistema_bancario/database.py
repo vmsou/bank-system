@@ -1,8 +1,10 @@
 import sqlite3
 
 from defaults.settings import Settings
+from utility import Logger
 
 settings = Settings()
+DBLogger = Logger("Database")
 
 db_file = settings.db_file
 db_name = settings.db_name
@@ -47,9 +49,9 @@ def create_connection(database_name):
     connection = None
     try:
         connection = sqlite3.connect(database_name)
-        print("[Database] Connection to DB was successful.")
+        DBLogger.log("Connection to DB was successful.")
     except sqlite3.Error as e:
-        print(f"[Database] Error: {e}")
+        DBLogger.log(f"[Database] Error: {e}")
         return False
 
     return connection
@@ -60,9 +62,9 @@ def execute_query(connection, query):
     cursor = connection.cursor()
     try:
         cursor.execute(query)
-        print("[Database] Query executed")
+        DBLogger.log("Query executed")
     except sqlite3.Error as e:
-        print(f"[Database] Error: {e}")
+        DBLogger.log(f"Error: {e}")
     else:
         connection.commit()
 
@@ -96,7 +98,7 @@ def read_query(connection, query):
         cursor.execute(query)
         result = cursor.fetchall()
     except sqlite3.Error as e:
-        print(f"[Database] Error: {e}")
+        DBLogger.log(f"Error: {e}")
     return result
 
 
@@ -111,14 +113,14 @@ def _prepare_table(connection):
 def _read_users(connection):
     users = read_query(connection, select_users)
     for user in users:
-        print(user)
+        DBLogger.log(user)
 
 
 def _read_sequence(connection):
     sequences = read_query(connection, "SELECT * FROM sqlite_sequence")
 
     for sequence in sequences:
-        print(sequence)
+        DBLogger.log(sequence)
 
 
 if __name__ == '__main__':
