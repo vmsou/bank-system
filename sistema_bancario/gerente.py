@@ -1,5 +1,7 @@
-import sys
 import argparse
+# import hashlib  # Para fazer o hash da senha
+import sys
+
 
 from database import create_connection, read_query, insert_user, execute_query, DBLogger
 from utility import confimar, affirmations, Logger
@@ -57,7 +59,7 @@ def buscar_conta(connection, id=None, nome=None, info="*"):
         for user in users:
             print(user)
         print(f"{'':-^130s}")
-        ConsoleLogger.log("Busca feita com exito!")
+        ConsoleLogger.log("Busca feita com êxito!")
     else:
         ConsoleLogger.log("Usuário não encontrado!")
 

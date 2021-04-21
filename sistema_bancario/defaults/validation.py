@@ -12,7 +12,7 @@ def check_name(name):
 
 
 def check_job(title):
-    """TODO: Verificar se profissão é valida"""
+    """TODO: Verificar se profissão é valida [Talvez não seja necessário]"""
     ...
 
 
