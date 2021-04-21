@@ -32,15 +32,20 @@ Se você ter acesso a um terminal
 ```bash
 cd sistema_bancario
 ```
-
 ```bash
 python gerente.py <comando>
 ```
-
 ```bash
 python cliente.py <comando>
 ```
-
+Para uma lista de comandos do gerente
+```bash
+python gerente.py -h ou --help
+```
+Para uma lista de comandos do cliente
+```bash
+python cliente.py -h ou --help
+```
 ## Status
 <h4 align="center"> 
 	🚧  Ainda Está Em construção...  🚧
