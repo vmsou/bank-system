@@ -18,7 +18,6 @@ CREATE TABLE IF NOT EXISTS {db_name} (
   password TEXT NOT NULL,
   balance FLOAT NOT NULL DEFAULT 0
 );
-
 """
 
 create_transactions_table = f"""

@@ -43,15 +43,16 @@ def cadastrar_conta(connection):
         print("[Console] Cancelando...")
 
 
-def buscar_conta(connection, id=None, nome=None):
+def buscar_conta(connection, id=None, nome=None, info="*"):
     users = None
     if id:
         print("[Console] Buscando por ID...")
-        users = read_query(connection, f"SELECT * FROM USERS WHERE ID = {id};")
+        users = read_query(connection, f"SELECT {info} FROM USERS WHERE ID = {id};")
     elif nome:
         print("[Console] Buscando pelo nome...")
-        users = read_query(connection, f"SELECT * FROM USERS WHERE name LIKE '%{nome}%';")
+        users = read_query(connection, f"SELECT {info} FROM USERS WHERE name LIKE '%{nome}%';")
     if users:
+        print(", ".join(settings.info))
         for user in users:
             print(user)
     else:
