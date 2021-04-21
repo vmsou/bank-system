@@ -56,6 +56,7 @@ def buscar_conta(connection, id=None, nome=None, info="*"):
         print(", ".join(settings.info))
         for user in users:
             print(user)
+        ConsoleLogger.log("Busca feita com exito.")
     else:
         ConsoleLogger.log("Usuário não encontrado!")
 
@@ -82,8 +83,8 @@ def main():
                                                  "buscar uma conta existente ou definir uma nova senha de uma conta existente.")
     group = parser.add_mutually_exclusive_group()
 
-    parser.add_argument('--disable_confirm', dest='disable_confirm', action='store_true')
-    parser.add_argument('--disable_log', dest='disable_log', action='store_true')
+    parser.add_argument('-disable_confirm', dest='disable_confirm', action='store_true')
+    parser.add_argument('-disable_log', dest='disable_log', action='store_true')
 
     group.add_argument('--cadastrar', dest='cadastrar', action='store_true')
     group.add_argument('--buscar', dest='buscar', action='store_true')
@@ -95,7 +96,7 @@ def main():
         CONFIRM = False
 
     if args.disable_log:
-        ConsoleLogger.enabled = False
+        Logger.enabled = False
 
     if args.cadastrar:
         cadastrar_conta(connection)

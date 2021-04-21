@@ -1,8 +1,8 @@
 class Logger:
+    enabled = True
 
     def __init__(self, name):
         self.name = name
-        self.enabled = True
 
     def log(self, message):
         if self.enabled:
