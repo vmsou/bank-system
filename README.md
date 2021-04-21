@@ -48,5 +48,5 @@ python cliente.py -h ou --help
 ```
 ## Status
 <h4 align="center"> 
-	🚧  Ainda Está Em construção...  🚧
+	🚧  Ainda está em construção...  🚧
 </h4>
