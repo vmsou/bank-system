@@ -39,7 +39,7 @@ def cadastrar_conta(connection):
         ConsoleLogger.log("Cadastrado!")
 
     else:
-        ConsoleLogger.log("Cancelando...")
+        ConsoleLogger.log("Cancelando!")
 
 
 def buscar_conta(connection, id=None, nome=None, info="*"):
