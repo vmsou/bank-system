@@ -6,7 +6,7 @@ class Logger:
 
     def log(self, message):
         if self.enabled:
-            print(f"[{self.name}] {message}")
+            print(f"[{self.name}] " + message)
 
 
 affirmations = ('sim', 's', 'si', 'y', 'yes')

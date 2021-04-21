@@ -3,8 +3,17 @@ import sqlite3
 from defaults.settings import Settings
 from utility import Logger
 
+
+class DatabaseLogger(Logger):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def log_transaction(self, sender, receiver, amount):
+        print(f"[{self.name}] {sender}: R$ {amount:,.2f} -> {receiver}")
+
+
 settings = Settings()
-DBLogger = Logger("Database")
+DBLogger = DatabaseLogger("Database")
 
 db_file = settings.db_file
 db_name = settings.db_name
@@ -123,9 +132,16 @@ def _read_sequence(connection):
         DBLogger.log(sequence)
 
 
+def _transaction(connection, sender, receiver, amount):
+    # TODO: Verificar se quantidade é compativel com o banco de dados
+    # TODO: Subtrair e adicionar informações no banco de dados
+    # TODO: Usar DBLogger
+    ...
+
+
 if __name__ == '__main__':
     connection = create_connection(db_file)
-    _prepare_table(connection)
+    #_prepare_table(connection)
     #dados = ("Vinicius3", "Engenheiro de Software", 11000, 'Rua Teste 999', '(41) 98765-4321')
     #insert_user(connection, dados)
 

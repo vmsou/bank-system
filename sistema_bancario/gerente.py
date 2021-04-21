@@ -53,10 +53,13 @@ def buscar_conta(connection, id=None, nome=None, info="*"):
         ConsoleLogger.log("Buscando pelo nome...")
         users = read_query(connection, f"SELECT {info} FROM USERS WHERE name LIKE '%{nome}%';")
     if users:
+        print()
         print(", ".join(settings.info))
+        print(f"{'':-^130s}")
         for user in users:
             print(user)
-        ConsoleLogger.log("Busca feita com exito.")
+        print(f"{'':-^130s}")
+        ConsoleLogger.log("Busca feita com exito!")
     else:
         ConsoleLogger.log("Usuário não encontrado!")
 
