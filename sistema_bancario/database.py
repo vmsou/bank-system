@@ -8,8 +8,9 @@ class DatabaseLogger(Logger):
     def __init__(self, name):
         super().__init__(name)
 
-    def log_transaction(self, sender, receiver, amount):
+    def log_transaction(self, connection, sender, receiver, amount):
         print(f"[{self.name}] {sender}: R$ {amount:,.2f} -> {receiver}")
+        execute_query(connection, f"INSERT INTO transactions(sender, receiver, amount) VALUES  {sender, receiver, amount};")
 
 
 settings = Settings()

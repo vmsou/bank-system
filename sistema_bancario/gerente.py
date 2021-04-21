@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from database import create_connection, read_query, insert_user, execute_query
+from database import create_connection, read_query, insert_user, execute_query, DBLogger
 from utility import confimar, affirmations, Logger
 
 from defaults.settings import Settings
@@ -9,8 +9,6 @@ from defaults.settings import Settings
 settings = Settings()
 db_file = settings.db_file
 ConsoleLogger = Logger("Console")
-
-CONFIRM = True
 
 
 def gen_id(connection):
@@ -26,12 +24,12 @@ def cadastrar_conta(connection):
     print(f"{f'> Cadastrar Conta ID: {id} <':^30s}")
     print(f"{'':-^30s}")
 
-    name = confimar("Nome Completo: ", confirm=CONFIRM)
-    job = confimar("Profissão: ", confirm=CONFIRM)
-    renda = confimar("Renda Mensal: ", float, confirm=CONFIRM)
-    address = confimar("Endereço: ", confirm=CONFIRM)
-    telefone = confimar("Telefone: ", confirm=CONFIRM)
-    senha = confimar("Senha: ", confirm=CONFIRM)
+    name = confimar("Nome Completo: ", confirm=settings.CONFIRM)
+    job = confimar("Profissão: ", confirm=settings.CONFIRM)
+    renda = confimar("Renda Mensal: ", float, confirm=settings.CONFIRM)
+    address = confimar("Endereço: ", confirm=settings.CONFIRM)
+    telefone = confimar("Telefone: ", confirm=settings.CONFIRM)
+    senha = confimar("Senha: ", confirm=settings.CONFIRM)
     cadastrar = input("Cadastrar Conta (s/n)? ")
 
     if cadastrar.lower() in affirmations:
@@ -80,8 +78,6 @@ def main():
     if not connection:
         sys.exit(1)
 
-    global CONFIRM
-
     parser = argparse.ArgumentParser(description="Interface de gerente. Utilizada para cadastrar novas contas, "
                                                  "buscar uma conta existente ou definir uma nova senha de uma conta existente.")
     group = parser.add_mutually_exclusive_group()
@@ -96,10 +92,11 @@ def main():
     args = parser.parse_args()
 
     if args.disable_confirm:
-        CONFIRM = False
+        settings.CONFIRM = False
 
     if args.disable_log:
         Logger.enabled = False
+        DBLogger.enabled = False
 
     if args.cadastrar:
         cadastrar_conta(connection)
@@ -107,10 +104,10 @@ def main():
     if args.buscar:
         escolha = input("Buscar por ID ou Nome? ")
         if escolha.lower() == 'id':
-            id = confimar("ID: ", int, confirm=CONFIRM)
+            id = confimar("ID: ", int, confirm=settings.CONFIRM)
             buscar_conta(connection, id=id)
         elif escolha.lower() == 'nome':
-            nome = confimar("Nome: ", confirm=CONFIRM)
+            nome = confimar("Nome: ", confirm=settings.CONFIRM)
             buscar_conta(connection, nome=nome)
 
     if args.mudar_senha:
