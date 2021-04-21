@@ -8,7 +8,7 @@ settings = Settings()
 
 db_file = settings.db_file
 db_name = settings.db_name
-db_name2 = settings.db_name2  # Transactions
+exchanges = settings.exchanges  # Transactions
 
 
 class DatabaseLogger(Logger):
@@ -17,7 +17,7 @@ class DatabaseLogger(Logger):
 
     def log_transaction(self, connection, sender, receiver, amount):
         print(f"[{self.name}] {sender}: R$ {amount:,.2f} -> {receiver}")
-        execute_query(connection, f"INSERT INTO {db_name2}(sender, receiver, amount) VALUES  {sender, receiver, amount};")
+        execute_query(connection, f"INSERT INTO {exchanges}(sender, receiver, amount) VALUES  {sender, receiver, amount};")
 
 
 DBLogger = DatabaseLogger("Database")
