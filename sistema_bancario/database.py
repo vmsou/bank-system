@@ -16,7 +16,7 @@ class DatabaseLogger(Logger):
         super().__init__(name)
 
     def log_transaction(self, connection, sender, receiver, amount):
-        execute_query(connection, transaction_db.format(exchanges, sender, receiver, amount))
+        execute_query(connection, transaction_db.format(exchanges, (sender, receiver, amount)))
         if self.enabled:
             print(f"[{self.name}] {sender}: R$ {amount:,.2f} -> {receiver}")
 

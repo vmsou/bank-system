@@ -44,7 +44,7 @@ select_users = "SELECT * from users"
 add_user = "INSERT INTO {}(name, job, income, address, phone, password) VALUES {};"
 user_by_id = "SELECT {} FROM users WHERE id = {};"
 user_by_name = "SELECT {} FROM users WHERE name LIKE '%{}%';"
-update_info = "UPDATE users SET {} = '{}' WHERE id = {id};"
+update_info = "UPDATE users SET {} = '{}' WHERE id = {};"
 
 '''Sequence Queries'''
 sequence_starting = f"UPDATE sqlite_sequence SET seq = 9999 WHERE NAME = '{db_name}';"
@@ -52,4 +52,4 @@ show_sequence = "SELECT * FROM sqlite_sequence"
 sequence_id = "SELECT seq FROM sqlite_sequence WHERE NAME='users';"
 
 '''Transaction Queries'''
-transaction_db = "INSERT INTO {exchanges}(sender, receiver, amount) VALUES {sender, receiver, amount};"
+transaction_db = "INSERT INTO {}(sender, receiver, amount) VALUES {};"
