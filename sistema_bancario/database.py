@@ -16,8 +16,7 @@ class DatabaseLogger(Logger):
         super().__init__(name)
 
     def log_transaction(self, connection, sender, receiver, amount):
-        execute_query(connection,
-                      f"INSERT INTO {exchanges}(sender, receiver, amount) VALUES {sender, receiver, amount};")
+        execute_query(connection, transaction_db.format(exchanges, sender, receiver, amount))
         if self.enabled:
             print(f"[{self.name}] {sender}: R$ {amount:,.2f} -> {receiver}")
 
@@ -62,13 +61,7 @@ def _create_users(connection):
 
 
 def insert_user(connection, data: tuple):
-    add_user = f"""
-    INSERT INTO
-        {db_name}(name, job, income, address, phone, password)
-    VALUES 
-        {data};
-    """
-    execute_query(connection, add_user)
+    execute_query(connection, add_user.format(db_name, data))
 
 
 def read_query(connection, query):
@@ -87,7 +80,7 @@ def _prepare_table(connection):
     _create_transactions_table(connection)
     dados1 = ("Teste", "Emprego", "Renda Mensal", "Endereço", "Telefone", "Teste123")
     insert_user(connection, dados1)
-    execute_query(connection, f"UPDATE sqlite_sequence SET seq = 9999 WHERE NAME = '{db_name}';")
+    execute_query(connection, sequence_starting)
 
 
 def _read_users(connection):
@@ -97,13 +90,13 @@ def _read_users(connection):
 
 
 def _read_sequence(connection):
-    sequences = read_query(connection, "SELECT * FROM sqlite_sequence")
+    sequences = read_query(connection, show_sequence)
 
     for sequence in sequences:
         DBLogger.log(sequence)
 
 
-def _transaction(connection, sender, receiver, amount):
+def transaction(connection, sender, receiver, amount):
     # TODO: Verificar se quantidade é compativel com o banco de dados
     # TODO: Subtrair e adicionar informações no banco de dados
     # TODO: Usar DBLogger

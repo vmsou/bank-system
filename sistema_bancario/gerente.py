@@ -53,12 +53,7 @@ def buscar_conta(connection, id=None, nome=None, info="*"):
         ConsoleLogger.log("Buscando pelo nome...")
         users = read_query(connection, f"SELECT {info} FROM USERS WHERE name LIKE '%{nome}%';")
     if users:
-        qtd = len(users)
-        if qtd > 1:
-            print(f"Encontrado: {len(users)} Usuários.")
-        else:
-            print(f"Encontrado: {len(users)} Usuário.")
-
+        print(f"Encontrado: {len(users)}")
         print()
         print(", ".join(settings.info))
         print(f"{'':-^130s}")
