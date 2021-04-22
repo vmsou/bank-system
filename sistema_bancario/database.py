@@ -103,6 +103,13 @@ def transaction(connection, sender, receiver, amount):
     ...
 
 
+def check_login(connection, id, senha):
+    # TODO: Entrar na base de dados
+    # TODO: Usar query para verificar se id e senha estão corretos
+    # TODO: Retornar True ou False
+    ...
+
+
 if __name__ == '__main__':
     connection = create_connection(db_file)
     _prepare_table(connection)

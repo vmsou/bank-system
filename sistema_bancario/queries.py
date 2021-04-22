@@ -4,7 +4,6 @@ settings = Settings()
 db_file = settings.db_file
 db_name = settings.db_name
 
-
 '''Creating Table Queries'''
 create_users_table = f"""
 CREATE TABLE IF NOT EXISTS {db_name} (

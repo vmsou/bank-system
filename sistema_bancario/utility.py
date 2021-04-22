@@ -9,6 +9,16 @@ class Logger:
             print(f"[{self.name}] " + message)
 
 
+class LocalData:
+    def __init__(self):
+        self.id = None
+        self.password = None
+
+    def set_data(self, id, senha):
+        self.id = id
+        self.senha = senha
+
+
 affirmations = ('sim', 's', 'si', 'y', 'yes')
 
 

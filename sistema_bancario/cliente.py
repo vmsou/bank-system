@@ -1,27 +1,43 @@
 import argparse
 import sys
 
-from database import create_connection
+from database import create_connection, check_login
+from defaults.settings import Settings
+from utility import Logger, LocalData
+
+settings = Settings()
+db_file = settings.db_file
+ConsoleLogger = Logger("Console")
+data_local = LocalData()
 
 
-def saque(conta, senha):
-    print(f"Sacando: {conta}")
+def saque(connection):
+    print(f"Sacando da conta {data_local.id}")
 
 
-def deposito(conta, senha):
+def deposito(connection):
     print("Depositando...")
 
 
-def visualizar(conta):
+def visualizar(connection):
     print("Visualizando...")
 
 
-def simular():
+def simular(connection):
     print("Simulando investimento...")
 
 
 def main():
-    if not create_connection("users.sqlite"):
+    connection = create_connection(db_file)
+    if not connection:
+        sys.exit(1)
+
+    id = int(input("ID: "))
+    senha = input("senha: ")
+    if check_login(connection, id, senha):
+        data_local.set_data(id, senha)
+    else:
+        print("Login e Senha Incorretos.")
         sys.exit(1)
 
     parser = argparse.ArgumentParser(description="Interface de cliente. "
@@ -35,21 +51,16 @@ def main():
     args = parser.parse_args()
 
     if args.saque:
-        conta = input("Conta: ")
-        senha = input("Senha: ")
-        saque(conta, senha)
+        saque(connection)
 
     if args.deposito:
-        conta = input("Conta: ")
-        senha = input("Senha: ")
-        deposito(conta, senha)
+        deposito(connection)
 
     if args.visualizar:
-        conta = input("Conta: ")
-        visualizar(conta)
+        visualizar(connection)
 
     if args.simular:
-        simular()
+        simular(connection)
 
 
 if __name__ == '__main__':
