@@ -36,6 +36,6 @@ def check_password(password):
     -> Para facilitar usar módulo string
     TODO: Senha maior que 8 caracteres
     TODO: precisando de letras maisculas e minusculas
-    TODO: Pelo menos um carácter especial
+    TODO: Recusar acentos e/ou caracteres especiais
     """
     ...

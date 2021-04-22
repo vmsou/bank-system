@@ -4,6 +4,7 @@ import sys
 
 
 from database import create_connection, read_query, insert_user, execute_query, DBLogger
+from queries import sequence_id, user_by_id, user_by_name, update_info
 from utility import confimar, affirmations, Logger
 
 from defaults.settings import Settings
@@ -15,7 +16,7 @@ ConsoleLogger = Logger("Console")
 
 def gen_id(connection):
     """Gerar ID, a partir do ultimo id + 1"""
-    id = read_query(connection, "SELECT seq FROM sqlite_sequence WHERE NAME='users';")
+    id = read_query(connection, sequence_id)
     return id[0][0] + 1
 
 
@@ -48,10 +49,10 @@ def buscar_conta(connection, id=None, nome=None, info="*"):
     users = None
     if id:
         ConsoleLogger.log("Buscando por ID...")
-        users = read_query(connection, f"SELECT {info} FROM USERS WHERE ID = {id};")
+        users = read_query(connection, user_by_id.format(info, id))
     elif nome:
         ConsoleLogger.log("Buscando pelo nome...")
-        users = read_query(connection, f"SELECT {info} FROM USERS WHERE name LIKE '%{nome}%';")
+        users = read_query(connection, user_by_name.format(info, nome))
     if users:
         print(f"Encontrado: {len(users)}")
         print()
@@ -67,12 +68,11 @@ def buscar_conta(connection, id=None, nome=None, info="*"):
 
 def mudar_senha(connection):
     id = input('ID: ')
-    user = read_query(connection,f"SELECT name FROM USERS WHERE ID = {id};")[0][0]
+    user = read_query(connection, user_by_id.format('name', id))[0][0]
     ConsoleLogger.log(f"Mudando senha do usuario: {user}")
     nova_senha = input("Nova senha: ")
     if nova_senha:
-        query = f"UPDATE users SET password = '{nova_senha}' WHERE id = {id};"
-        execute_query(connection, query)
+        execute_query(connection, update_info.format('password', nova_senha, id))
         ConsoleLogger.log("Senha mudada.")
 
 
