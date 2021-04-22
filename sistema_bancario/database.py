@@ -30,7 +30,7 @@ def create_connection(database_name):
         connection = sqlite3.connect(database_name)
         DBLogger.log("Connection to DB was successful.")
     except sqlite3.Error as e:
-        DBLogger.log(f"[Database] Error: {e}")
+        DBLogger.log(f"Error: {e}")
         return False
 
     return connection
