@@ -11,19 +11,19 @@ ConsoleLogger = Logger("Console")
 data_local = LocalData()
 
 
-def saque(connection):
+def saque():
     print(f"Sacando da conta {data_local.id}")
 
 
-def deposito(connection):
+def deposito():
     print("Depositando...")
 
 
-def visualizar(connection):
+def visualizar():
     print("Visualizando...")
 
 
-def simular(connection):
+def simular():
     print("Simulando investimento...")
 
 
@@ -31,6 +31,8 @@ def main():
     connection = create_connection(db_file)
     if not connection:
         sys.exit(1)
+
+    data_local.connection = connection
 
     id = int(input("ID: "))
     senha = input("senha: ")
@@ -51,16 +53,16 @@ def main():
     args = parser.parse_args()
 
     if args.saque:
-        saque(connection)
+        saque()
 
     if args.deposito:
-        deposito(connection)
+        deposito()
 
     if args.visualizar:
-        visualizar(connection)
+        visualizar()
 
     if args.simular:
-        simular(connection)
+        simular()
 
 
 if __name__ == '__main__':

@@ -2,7 +2,6 @@ import argparse
 # import hashlib  # Para fazer o hash da senha
 import sys
 
-
 from database import create_connection, read_query, insert_user, execute_query, DBLogger
 from queries import sequence_id, user_by_id, user_by_name, update_info
 from utility import confimar, affirmations, Logger, LocalData
@@ -101,7 +100,6 @@ def main():
 
     if args.disable_log:
         Logger.enabled = False
-        DBLogger.enabled = False
 
     if args.cadastrar:
         cadastrar_conta()
