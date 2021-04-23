@@ -91,7 +91,7 @@ def main():
 
     group.add_argument('--cadastrar', dest='cadastrar', action='store_true')
     group.add_argument('--buscar', dest='buscar', action='store_true')
-    group.add_argument('--mudar_senha', dest='mudar_senha', action='store_true')
+    group.add_argument('--senha', dest='senha', action='store_true')
 
     args = parser.parse_args()
 
@@ -113,7 +113,7 @@ def main():
             nome = confimar("Nome: ", confirm=settings.CONFIRM)
             buscar_conta(nome=nome)
 
-    if args.mudar_senha:
+    if args.senha:
         mudar_senha()
 
 
