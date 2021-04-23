@@ -13,6 +13,7 @@ class LocalData:
     def __init__(self):
         self.id = None
         self.password = None
+        self.connection = None
 
     def set_data(self, id, senha):
         self.id = id

@@ -5,23 +5,23 @@ import sys
 
 from database import create_connection, read_query, insert_user, execute_query, DBLogger
 from queries import sequence_id, user_by_id, user_by_name, update_info
-from utility import confimar, affirmations, Logger
+from utility import confimar, affirmations, Logger, LocalData
 
 from defaults.settings import Settings
 
 settings = Settings()
+local_data = LocalData()
 db_file = settings.db_file
 ConsoleLogger = Logger("Console")
 
 
-def gen_id(connection):
+def gen_id():
     """Gerar ID, a partir do ultimo id + 1"""
-    id = read_query(connection, sequence_id)
-    return id[0][0] + 1
+    return read_query(local_data.connection, sequence_id)[0][0] + 1
 
 
-def cadastrar_conta(connection):
-    id = gen_id(connection)
+def cadastrar_conta():
+    id = gen_id()
 
     print(f"{'':-^30s}")
     print(f"{f'> Cadastrar Conta ID: {id} <':^30s}")
@@ -38,21 +38,21 @@ def cadastrar_conta(connection):
     if cadastrar.lower() in affirmations:
         dados = (name, job, renda, address, telefone, senha)
         ConsoleLogger.log("Cadastrando...")
-        insert_user(connection, dados)
+        insert_user(local_data.connection, dados)
         ConsoleLogger.log("Cadastrado!")
 
     else:
         ConsoleLogger.log("Cancelando!")
 
 
-def buscar_conta(connection, id=None, nome=None, info="*"):
+def buscar_conta(id=None, nome=None, info="*"):
     users = None
     if id:
         ConsoleLogger.log("Buscando por ID...")
-        users = read_query(connection, user_by_id.format(info, id))
+        users = read_query(local_data.connection, user_by_id.format(info, id))
     elif nome:
         ConsoleLogger.log("Buscando pelo nome...")
-        users = read_query(connection, user_by_name.format(info, nome))
+        users = read_query(local_data.connection, user_by_name.format(info, nome))
     if users:
         print(f"Encontrado: {len(users)}")
         print()
@@ -66,13 +66,13 @@ def buscar_conta(connection, id=None, nome=None, info="*"):
         ConsoleLogger.log("Usuário não encontrado!")
 
 
-def mudar_senha(connection):
+def mudar_senha():
     id = input('ID: ')
-    user = read_query(connection, user_by_id.format('name', id))[0][0]
+    user = read_query(local_data.connection, user_by_id.format('name', id))[0][0]
     ConsoleLogger.log(f"Mudando senha do usuario: {user}")
     nova_senha = input("Nova senha: ")
     if nova_senha:
-        execute_query(connection, update_info.format('password', nova_senha, id))
+        execute_query(local_data.connection, update_info.format('password', nova_senha, id))
         ConsoleLogger.log("Senha mudada.")
 
 
@@ -80,6 +80,8 @@ def main():
     connection = create_connection(db_file)
     if not connection:
         sys.exit(1)
+
+    local_data.connection = connection
 
     parser = argparse.ArgumentParser(description="Interface de gerente. Utilizada para cadastrar novas contas, "
                                                  "buscar uma conta existente ou definir uma nova senha de uma conta existente.")
@@ -102,19 +104,19 @@ def main():
         DBLogger.enabled = False
 
     if args.cadastrar:
-        cadastrar_conta(connection)
+        cadastrar_conta()
 
     if args.buscar:
         escolha = input("Buscar por ID ou Nome? ")
         if escolha.lower() == 'id':
             id = confimar("ID: ", int, confirm=settings.CONFIRM)
-            buscar_conta(connection, id=id)
+            buscar_conta(id=id)
         elif escolha.lower() == 'nome':
             nome = confimar("Nome: ", confirm=settings.CONFIRM)
-            buscar_conta(connection, nome=nome)
+            buscar_conta(nome=nome)
 
     if args.mudar_senha:
-        mudar_senha(connection)
+        mudar_senha()
 
 
 if __name__ == '__main__':
