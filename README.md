@@ -50,3 +50,13 @@ python cliente.py -h ou --help
 <h4 align="center"> 
 	🚧  Ainda está em construção...  🚧
 </h4>
+
+## Para fazer:
+- [ ] Login [Cliente]
+- [ ] Saque [Cliente]
+- [ ] Depósito [Cliente]
+- [ ] Visualizar [Cliente]
+- [ ] Simulação de Investimento [Cliente]
+- [ ] Verificar Login [Base de Dados]
+- [ ] Hash para as senhas [Base de Dados]
+- [ ] Verificar Login [Base de Dados]
