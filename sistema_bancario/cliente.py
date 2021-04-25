@@ -3,7 +3,7 @@ import sys
 
 from database import create_connection, check_login
 from defaults.settings import Settings
-from utility import Logger, LocalData
+from utility import Logger, LocalData, confirmar
 
 settings = Settings()
 db_file = settings.db_file
@@ -34,8 +34,8 @@ def main():
 
     data_local.connection = connection
 
-    id = int(input("ID: "))
-    senha = input("senha: ")
+    id = confirmar("ID", int)
+    senha = confirmar("Senha:")
     if check_login(connection, id, senha):
         data_local.set_data(id, senha)
     else:

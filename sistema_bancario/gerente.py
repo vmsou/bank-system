@@ -4,7 +4,7 @@ import sys
 
 from database import create_connection, read_query, insert_user, execute_query, DBLogger
 from queries import sequence_id, user_by_id, user_by_name, update_info
-from utility import confimar, affirmations, Logger, LocalData
+from utility import confirmar, affirmations, Logger, LocalData
 
 from defaults.settings import Settings
 
@@ -26,12 +26,12 @@ def cadastrar_conta():
     print(f"{f'> Cadastrar Conta ID: {id} <':^30s}")
     print(f"{'':-^30s}")
 
-    name = confimar("Nome Completo: ", confirm=settings.CONFIRM)
-    job = confimar("Profissão: ", confirm=settings.CONFIRM)
-    renda = confimar("Renda Mensal: ", float, confirm=settings.CONFIRM)
-    address = confimar("Endereço: ", confirm=settings.CONFIRM)
-    telefone = confimar("Telefone: ", confirm=settings.CONFIRM)
-    senha = confimar("Senha: ", confirm=settings.CONFIRM)
+    name = confirmar("Nome Completo: ", confirm=settings.CONFIRM)
+    job = confirmar("Profissão: ", confirm=settings.CONFIRM)
+    renda = confirmar("Renda Mensal: ", float, confirm=settings.CONFIRM)
+    address = confirmar("Endereço: ", confirm=settings.CONFIRM)
+    telefone = confirmar("Telefone: ", confirm=settings.CONFIRM)
+    senha = confirmar("Senha: ", confirm=settings.CONFIRM)
     cadastrar = input("Cadastrar Conta (s/n)? ")
 
     if cadastrar.lower() in affirmations:
@@ -107,10 +107,10 @@ def main():
     if args.buscar:
         escolha = input("Buscar por ID ou Nome? ")
         if escolha.lower() == 'id':
-            id = confimar("ID: ", int, confirm=settings.CONFIRM)
+            id = confirmar("ID: ", int, confirm=settings.CONFIRM)
             buscar_conta(id=id)
         elif escolha.lower() == 'nome':
-            nome = confimar("Nome: ", confirm=settings.CONFIRM)
+            nome = confirmar("Nome: ", confirm=settings.CONFIRM)
             buscar_conta(nome=nome)
 
     if args.senha:

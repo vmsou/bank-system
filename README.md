@@ -10,7 +10,7 @@ Segundo Trabalho Discente Efetivo
 Sistema bancário, em que existem o sistema separado para o gerente e para o cliente utilizado através de linhas de comando
 
 Essa é uma lista dos recursos utilizados para fazer esse projeto
-### Construido utilizando 🛠
+### 🛠 Construido utilizando
 - sqlite3
 - sys
 - argparse

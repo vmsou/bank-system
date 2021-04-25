@@ -23,7 +23,7 @@ class LocalData:
 affirmations = ('sim', 's', 'si', 'y', 'yes')
 
 
-def confimar(mensagem, tipo=str, confirm=True):
+def confirmar(mensagem, tipo=str, confirm=True):
     while True:
         try:
             valor = tipo(input(mensagem))
