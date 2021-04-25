@@ -7,6 +7,7 @@ from queries import sequence_id, user_by_id, user_by_name, update_info
 from utility import confirmar, affirmations, Logger, LocalData
 
 from defaults.settings import Settings
+from defaults import validation
 
 settings = Settings()
 local_data = LocalData()
@@ -70,9 +71,11 @@ def mudar_senha():
     user = read_query(local_data.connection, user_by_id.format('name', id))[0][0]
     ConsoleLogger.log(f"Mudando senha do usuario: {user}")
     nova_senha = input("Nova senha: ")
-    if nova_senha:
+    if validation.check_password(nova_senha):
         execute_query(local_data.connection, update_info.format('password', nova_senha, id))
         ConsoleLogger.log("Senha mudada.")
+    else:
+        print("Senha Inválida")
 
 
 def main():
