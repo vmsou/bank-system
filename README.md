@@ -1,7 +1,7 @@
 # Raciocinio Algorítmico - Sistema Bancário
 Segundo Trabalho Discente Efetivo
 
-# [Grupo] Incoêrencia Algorítmica
+# Grupo - Incoêrencia Algorítmica
 * Vinicius Marques
 * ...
 * ...
