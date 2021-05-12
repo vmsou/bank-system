@@ -78,6 +78,26 @@ def mudar_senha():
         print("Senha Inválida")
 
 
+def config():
+    confirm = input("Desativar confirmações? (s, n): ")
+    if confirm.lower() in affirmations:
+        settings.CONFIRM = False
+    dlog = input("Desativar logs? (s, n): ")
+    if dlog.lower() in affirmations:
+        Logger.enabled = False
+
+
+def menu():
+    action_dict = {1: cadastrar_conta, 2: buscar_conta, 3: mudar_senha, 4: config}
+    print("Menu".center(50, "-"))
+    while True:
+        for i, j in enumerate(("Cadastrar", "Buscar", "Mudar Senha", "Configurações"), start=1):
+            print(f"[{i}] {j}")
+
+        action = input("Ação: ")
+        action_dict[int(action)]()
+
+
 def main():
     connection = create_connection(db_file)
     if not connection:
@@ -107,7 +127,7 @@ def main():
     if args.cadastrar:
         cadastrar_conta()
 
-    if args.buscar:
+    elif args.buscar:
         escolha = input("Buscar por ID ou Nome? ")
         if escolha.lower() == 'id':
             id = confirmar("ID: ", int, confirm=settings.CONFIRM)
@@ -116,8 +136,11 @@ def main():
             nome = confirmar("Nome: ", confirm=settings.CONFIRM)
             buscar_conta(nome=nome)
 
-    if args.senha:
+    elif args.senha:
         mudar_senha()
+
+    else:
+        menu()
 
 
 if __name__ == '__main__':
