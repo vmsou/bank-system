@@ -1,9 +1,10 @@
 import argparse
 import sys
 
-from database import create_connection, check_login
+from database import create_connection, check_login, read_query, execute_query
 from defaults.settings import Settings
-from utility import Logger, LocalData, confirmar
+from utility import Logger, LocalData, confirmar, affirmations
+from queries import *
 
 settings = Settings()
 db_file = settings.db_file
@@ -12,7 +13,18 @@ data_local = LocalData()
 
 
 def saque():
-    print(f"Sacando da conta {data_local.id}")
+    saldo = read_query(data_local.connection, user_by_id.format("balance", data_local.id))[0][0]
+    print(f"Saldo: R${saldo}")
+    amount = confirmar("Sacar: R$", float, settings.CONFIRM)
+    confirm = input(f"Sacar R${amount}? (s/n): ")
+    if confirm in affirmations:
+        if saldo >= amount >= 0:
+            execute_query(data_local.connection, update_info.format("balance", saldo - amount, data_local.id))
+            ConsoleLogger.log(f"R${amount} retirados da conta.")
+        else:
+            ConsoleLogger.log("Quantidade Inválida")
+    else:
+        print("Cancelado.")
 
 
 def deposito():

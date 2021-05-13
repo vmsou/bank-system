@@ -114,10 +114,14 @@ def transaction(connection, sender, receiver, amount, desc=None):
 
 
 def check_login(connection, id, senha):
-    password = read_query(connection, user_by_id.format("password", id))[0][0]
-    if password == senha:
-        return True
-    return False
+    try:
+        password = read_query(connection, user_by_id.format("password", id))[0][0]
+    except IndexError:
+        return False
+    else:
+        if password == senha:
+            return True
+        return False
 
 
 if __name__ == '__main__':
