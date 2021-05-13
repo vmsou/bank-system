@@ -45,14 +45,20 @@ def cadastrar_conta():
         ConsoleLogger.log("Cancelando!")
 
 
-def buscar_conta(id=None, nome=None, info="*"):
+def buscar_conta():
+    info = "*"
+    escolha = input("Buscar por ID ou Nome? ")
+
     users = None
-    if id:
+    if escolha.lower() == 'id':
+        id = confirmar("ID: ", int, confirm=settings.CONFIRM)
         ConsoleLogger.log("Buscando por ID...")
         users = read_query(local_data.connection, user_by_id.format(info, id))
-    elif nome:
+    elif escolha.lower() == 'nome':
+        nome = confirmar("Nome: ", confirm=settings.CONFIRM)
         ConsoleLogger.log("Buscando pelo nome...")
         users = read_query(local_data.connection, user_by_name.format(info, nome))
+
     if users:
         print(f"Encontrado: {len(users)}")
         print()
@@ -80,22 +86,28 @@ def mudar_senha():
 
 def config():
     confirm = input("Desativar confirmações? (s, n): ")
+    settings.CONFIRM = True
     if confirm.lower() in affirmations:
         settings.CONFIRM = False
+
     dlog = input("Desativar logs? (s, n): ")
+    Logger.enabled = True
     if dlog.lower() in affirmations:
         Logger.enabled = False
 
 
 def menu():
-    action_dict = {1: cadastrar_conta, 2: buscar_conta, 3: mudar_senha, 4: config}
+    action_dict = {1: cadastrar_conta, 2: buscar_conta, 3: mudar_senha, 4: config, 5: exit}
     print("Menu".center(50, "-"))
     while True:
-        for i, j in enumerate(("Cadastrar", "Buscar", "Mudar Senha", "Configurações"), start=1):
+        for i, j in enumerate(("Cadastrar", "Buscar", "Mudar Senha", "Configurações", "Sair"), start=1):
             print(f"[{i}] {j}")
 
         action = input("Ação: ")
-        action_dict[int(action)]()
+        try:
+            action_dict[int(action)]()
+        except IndexError:
+            print("Ação não encontrada")
 
 
 def main():
@@ -128,13 +140,7 @@ def main():
         cadastrar_conta()
 
     elif args.buscar:
-        escolha = input("Buscar por ID ou Nome? ")
-        if escolha.lower() == 'id':
-            id = confirmar("ID: ", int, confirm=settings.CONFIRM)
-            buscar_conta(id=id)
-        elif escolha.lower() == 'nome':
-            nome = confirmar("Nome: ", confirm=settings.CONFIRM)
-            buscar_conta(nome=nome)
+        buscar_conta()
 
     elif args.senha:
         mudar_senha()
