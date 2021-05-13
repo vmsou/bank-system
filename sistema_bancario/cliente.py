@@ -44,7 +44,7 @@ def config():
 
 
 def menu():
-    action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: config, 6: exit}
+    action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: config, 6: sys.exit}
 
     print("Menu".center(50, "-"))
 
@@ -55,8 +55,10 @@ def menu():
         action = input("Ação: ")
         try:
             action_dict[int(action)]()
-        except IndexError or ValueError:
+        except IndexError:
             ConsoleLogger.log("Ação não encontrada")
+        except ValueError:
+            ConsoleLogger.log("Ação inválida")
 
 
 def main():
