@@ -24,7 +24,7 @@ id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
 sender INTEGER NOT NULL,
 receiver INTEGER NOT NULL,
 amount FLOAT,
-description TEXT,
+description TEXT
 FOREIGN KEY (sender) REFERENCES {db_name} (id),
 FOREIGN KEY (receiver) REFERENCES {db_name}(id)
 );
@@ -51,4 +51,5 @@ show_sequence = "SELECT * FROM sqlite_sequence"
 sequence_id = "SELECT seq FROM sqlite_sequence WHERE NAME='users';"
 
 '''Transaction Queries'''
-transaction_db = "INSERT INTO {}(sender, receiver, amount) VALUES {};"
+select_transactions = "SELECT * from transactions"
+add_transaction = "INSERT INTO {}(sender, receiver, amount, description) VALUES {};"

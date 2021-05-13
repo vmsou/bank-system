@@ -15,8 +15,7 @@ class DatabaseLogger(Logger):
     def __init__(self, name):
         super().__init__(name)
 
-    def log_transaction(self, connection, sender, receiver, amount):
-        execute_query(connection, transaction_db.format(exchanges, (sender, receiver, amount)))
+    def log_transaction(self, sender, receiver, amount):
         if self.enabled:
             print(f"[{self.name}] {sender}: R$ {amount:,.2f} -> {receiver}")
 
@@ -86,7 +85,7 @@ def _prepare_table(connection):
 def _read_users(connection):
     users = read_query(connection, select_users)
     for user in users:
-        DBLogger.log(user)
+        print(user)
 
 
 def _read_sequence(connection):
@@ -96,11 +95,22 @@ def _read_sequence(connection):
         DBLogger.log(sequence)
 
 
-def transaction(connection, sender, receiver, amount):
-    # TODO: Verificar se quantidade é compativel com o banco de dados
-    # TODO: Subtrair e adicionar informações no banco de dados
-    # TODO: Usar DBLogger
-    ...
+def _read_transactions(connection):
+    transactions = read_query(connection, select_transactions)
+    for t in transactions:
+        print(t)
+
+
+def transaction(connection, sender, receiver, amount, desc=None):
+    sender_balance = read_query(connection, user_by_id.format("balance", sender))[0][0]
+    receiver_balance = read_query(connection, user_by_id.format("balance", receiver))[0][0]
+    if sender_balance >= amount:
+        DBLogger.log_transaction(sender, receiver, amount)
+        execute_query(connection, add_transaction.format(exchanges, (sender, receiver, amount, desc)))
+        execute_query(connection, update_info.format("balance", sender_balance - amount, sender))
+        execute_query(connection, update_info.format("balance", receiver_balance + amount, receiver))
+    else:
+        print("Saldo insuficiente")
 
 
 def check_login(connection, id, senha):
@@ -112,7 +122,7 @@ def check_login(connection, id, senha):
 
 if __name__ == '__main__':
     connection = create_connection(db_file)
-    _prepare_table(connection)
+    #_prepare_table(connection)
     #dados = ("Vinicius3", "Engenheiro de Software", 11000, 'Rua Teste 999', '(41) 98765-4321')
     #insert_user(connection, dados)
 
