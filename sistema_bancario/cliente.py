@@ -27,6 +27,27 @@ def simular():
     print("Simulando investimento...")
 
 
+def config():
+    print("Configurações...")
+
+
+def menu():
+    action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: config, 6: exit}
+
+    print("Menu".center(50, "-"))
+
+    while True:
+        for i, j in enumerate(("Saque", "Deposito", "Visualizar", "Simular", "Configurações", "Sair"), start=1):
+            print(f"[{i}] {j}")
+
+        action = input("Ação: ")
+        try:
+            print()
+            action_dict[int(action)]()
+        except IndexError:
+            print("Ação não encontrada")
+
+
 def main():
     connection = create_connection(db_file)
     if not connection:
@@ -34,10 +55,11 @@ def main():
 
     data_local.connection = connection
 
-    id = confirmar("ID", int)
-    senha = confirmar("Senha:")
+    id = confirmar("ID: ", int)
+    senha = confirmar("Senha: ")
     if check_login(connection, id, senha):
         data_local.set_data(id, senha)
+        print("Login efetuado com sucesso!")
     else:
         print("Login e Senha Incorretos.")
         sys.exit(1)
@@ -54,15 +76,14 @@ def main():
 
     if args.saque:
         saque()
-
-    if args.deposito:
+    elif args.deposito:
         deposito()
-
-    if args.visualizar:
+    elif args.visualizar:
         visualizar()
-
-    if args.simular:
+    elif args.simular:
         simular()
+    else:
+        menu()
 
 
 if __name__ == '__main__':

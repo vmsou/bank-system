@@ -104,10 +104,10 @@ def transaction(connection, sender, receiver, amount):
 
 
 def check_login(connection, id, senha):
-    # TODO: Entrar na base de dados
-    # TODO: Usar query para verificar se id e senha estão corretos
-    # TODO: Retornar True ou False
-    ...
+    password = read_query(connection, user_by_id.format("password", id))[0][0]
+    if password == senha:
+        return True
+    return False
 
 
 if __name__ == '__main__':
