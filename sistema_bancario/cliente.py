@@ -42,10 +42,9 @@ def menu():
 
         action = input("Ação: ")
         try:
-            print()
             action_dict[int(action)]()
-        except IndexError:
-            print("Ação não encontrada")
+        except IndexError or ValueError:
+            ConsoleLogger.log("Ação não encontrada")
 
 
 def main():
@@ -59,9 +58,9 @@ def main():
     senha = confirmar("Senha: ")
     if check_login(connection, id, senha):
         data_local.set_data(id, senha)
-        print("Login efetuado com sucesso!")
+        ConsoleLogger.log("Login efetuado com sucesso!")
     else:
-        print("Login e Senha Incorretos.")
+        ConsoleLogger.log("Login e Senha Incorretos.")
         sys.exit(1)
 
     parser = argparse.ArgumentParser(description="Interface de cliente. "
