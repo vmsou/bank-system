@@ -32,7 +32,11 @@ def deposito():
 
 
 def visualizar():
-    print("Visualizando...")
+    conta = read_query(data_local.connection, user_by_id.format("id, name, balance", data_local.id))[0]
+    id = conta[0]
+    nome = conta[1]
+    saldo = conta[2]
+    print(f"Nome: {nome}\nConta Corrente: {id}\nSaldo: {saldo}\n")
 
 
 def simular():

@@ -132,19 +132,14 @@ def main():
 
     if args.disable_confirm:
         settings.CONFIRM = False
-
     if args.disable_log:
         Logger.enabled = False
-
     if args.cadastrar:
         cadastrar_conta()
-
     elif args.buscar:
         buscar_conta()
-
     elif args.senha:
         mudar_senha()
-
     else:
         menu()
 
