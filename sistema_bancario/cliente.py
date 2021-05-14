@@ -58,8 +58,16 @@ def config():
     print("Configurações...")
 
 
+def sair():
+    data_local.id = None
+    data_local.connection = None
+    data_local.senha = None
+    ConsoleLogger.log("Saida efetuada.")
+    sys.exit()
+
+
 def menu():
-    action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: sys.exit}
+    action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: sair}
 
     print("Menu".center(50, "-"))
 
@@ -67,11 +75,11 @@ def menu():
         for i, j in enumerate(("Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Sair"), start=1):
             print(f"[{i}] {j}")
 
-        action = input("Ação: ")
+        action = int(input("Ação: "))
         print()
         try:
-            action_dict[int(action)]()
-        except IndexError or KeyError:
+            action_dict[action]()
+        except IndexError:
             ConsoleLogger.log("Ação não encontrada")
         except ValueError:
             ConsoleLogger.log("Ação inválida")
@@ -84,7 +92,7 @@ def main():
 
     data_local.connection = connection
 
-    id = confirmar("ID: ", int)
+    id = confirmar("Conta Corrente: ", int)
     senha = confirmar("Senha: ")
     if check_login(connection, id, senha):
         data_local.set_data(id, senha)
