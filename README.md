@@ -22,9 +22,9 @@ Essa é uma lista dos recursos utilizados para fazer esse projeto
 - [x] Alteração de senha de clientes
 
 ### Cliente
-- [ ] Saque
+- [x] Saque
 - [ ] Depósito
-- [ ] Visualização de saldo
+- [x] Visualização de saldo
 - [ ] Simulação de Investimento
 
 ## Como executa-lo
@@ -52,10 +52,7 @@ python cliente.py -h ou --help
 </h4>
 
 ## Para fazer:
-- [ ] Login [Cliente]
-- [ ] Saque [Cliente]
 - [ ] Depósito [Cliente]
-- [ ] Visualizar [Cliente]
 - [ ] Simulação de Investimento [Cliente]
 - [ ] Verificar Login [Base de Dados]
 - [ ] Hash para as senhas [Base de Dados]
