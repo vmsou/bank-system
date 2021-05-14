@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from database import create_connection, check_login, read_query, execute_query
+from database import create_connection, check_login, read_query, execute_query, transaction
 from defaults.settings import Settings
 from utility import Logger, LocalData, confirmar, affirmations
 from queries import *
@@ -43,23 +43,32 @@ def simular():
     print("Simulando investimento...")
 
 
+def transferir():
+    receiver = confirmar("ID Recebedor: ", int, settings.CONFIRM)
+    amount = confirmar("Quantidade R$", float, settings.CONFIRM)
+    desc = input("Comentario: ")
+    print(receiver, amount)
+    transaction(data_local.connection, data_local.id, receiver, amount, desc)
+
+
 def config():
     print("Configurações...")
 
 
 def menu():
-    action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: config, 6: sys.exit}
+    action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: sys.exit}
 
     print("Menu".center(50, "-"))
 
     while True:
-        for i, j in enumerate(("Saque", "Deposito", "Visualizar", "Simular", "Configurações", "Sair"), start=1):
+        for i, j in enumerate(("Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Sair"), start=1):
             print(f"[{i}] {j}")
 
         action = input("Ação: ")
+        print()
         try:
             action_dict[int(action)]()
-        except IndexError:
+        except IndexError or KeyError:
             ConsoleLogger.log("Ação não encontrada")
         except ValueError:
             ConsoleLogger.log("Ação inválida")

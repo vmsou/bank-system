@@ -17,7 +17,7 @@ class DatabaseLogger(Logger):
 
     def log_transaction(self, sender, receiver, amount):
         if self.enabled:
-            print(f"[{self.name}] {sender}: R$ {amount:,.2f} -> {receiver}")
+            print(f"[{self.name}] Sender: {sender}: R$ {amount:,.2f} -> Receiver: {receiver}")
 
 
 DBLogger = DatabaseLogger("Database")
@@ -101,7 +101,7 @@ def _read_transactions(connection):
         print(t)
 
 
-def transaction(connection, sender, receiver, amount, desc=None):
+def transaction(connection, sender, receiver, amount, desc="NULL"):
     sender_balance = read_query(connection, user_by_id.format("balance", sender))[0][0]
     receiver_balance = read_query(connection, user_by_id.format("balance", receiver))[0][0]
     if sender_balance >= amount:
