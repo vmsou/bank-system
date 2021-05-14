@@ -102,15 +102,19 @@ def _read_transactions(connection):
 
 
 def transaction(connection, sender, receiver, amount, desc="NULL"):
+    if sender == receiver:
+        return False
+
     sender_balance = read_query(connection, user_by_id.format("balance", sender))[0][0]
-    receiver_balance = read_query(connection, user_by_id.format("balance", receiver))[0][0]
     if sender_balance >= amount:
         DBLogger.log_transaction(sender, receiver, amount)
         execute_query(connection, add_transaction.format(exchanges, (sender, receiver, amount, desc)))
         execute_query(connection, update_info.format("balance", sender_balance - amount, sender))
+        receiver_balance = read_query(connection, user_by_id.format("balance", receiver))[0][0]
         execute_query(connection, update_info.format("balance", receiver_balance + amount, receiver))
-    else:
-        print("Saldo insuficiente")
+        return True
+
+    return False
 
 
 def check_login(connection, id, senha):

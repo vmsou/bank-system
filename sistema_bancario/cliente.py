@@ -36,7 +36,9 @@ def visualizar():
     id = conta[0]
     nome = conta[1]
     saldo = conta[2]
-    print(f"Nome: {nome}\nConta Corrente: {id}\nSaldo: {saldo}\n")
+    print("-"*40)
+    print(f"Nome: {nome}\nConta Corrente: {id}\nSaldo: {saldo}")
+    print("-" * 40)
 
 
 def simular():
@@ -48,7 +50,8 @@ def transferir():
     amount = confirmar("Quantidade R$", float, settings.CONFIRM)
     desc = input("Comentario: ")
     print(receiver, amount)
-    transaction(data_local.connection, data_local.id, receiver, amount, desc)
+    if not transaction(data_local.connection, data_local.id, receiver, amount, desc):
+        ConsoleLogger.log("Transferência Inválida")
 
 
 def config():

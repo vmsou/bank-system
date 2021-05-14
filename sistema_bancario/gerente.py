@@ -42,7 +42,7 @@ def cadastrar_conta():
         ConsoleLogger.log("Cadastrado!")
 
     else:
-        ConsoleLogger.log("Cancelando!")
+        ConsoleLogger.log("Cancelado.")
 
 
 def buscar_conta():
@@ -81,7 +81,7 @@ def mudar_senha():
         execute_query(local_data.connection, update_info.format('password', nova_senha, id))
         ConsoleLogger.log("Senha mudada.")
     else:
-        print("Senha Inválida")
+        print("Senha Inválida!")
 
 
 def config():
@@ -107,7 +107,7 @@ def menu():
         try:
             action_dict[int(action)]()
         except IndexError:
-            print("Ação não encontrada")
+            print("Ação não encontrada.")
 
 
 def main():
