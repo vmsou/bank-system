@@ -4,9 +4,17 @@ class Logger:
     def __init__(self, name):
         self.name = name
 
-    def log(self, message):
+    def log(self, message, color=None):
+        start = ''
+        end = ''
+        if color == 'green':
+            start = "\033[92m"
+            end = "\033[0m"
+        elif color == "red":
+            start = "\033[91m"
+            end = "\033[0m"
         if self.enabled:
-            print(f"[{self.name}] " + message)
+            print(f"[{self.name}] {start}{message}{end}")
 
 
 class LocalData:

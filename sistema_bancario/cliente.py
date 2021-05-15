@@ -97,9 +97,9 @@ def main():
     print("-" * 50)
     if check_login(connection, id, senha):
         data_local.set_data(id, senha)
-        ConsoleLogger.log("\033[92m Login efetuado com sucesso!\033[0m")
+        ConsoleLogger.log("Login efetuado com sucesso!", color='green')
     else:
-        ConsoleLogger.log("\033[91mLogin e Senha Incorretos.\033[0m")
+        ConsoleLogger.log("Login e Senha Incorretos.", color='red')
         sys.exit(1)
     parser = argparse.ArgumentParser(description="Interface de cliente. "
                                                  "Utilizada para o realizar diversas operações visando movimentação de dinheiro")
