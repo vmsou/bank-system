@@ -1,20 +1,24 @@
+colors = {"purple": '\033[95m', "blue": '\033[94m', "ciano": '\033[96m',
+         "green": '\033[92m', "yellow": '\033[93m', "red": '\033[91m'}
+
+
 class Logger:
     enabled = True
 
     def __init__(self, name):
         self.name = name
 
-    def log(self, message, color=None):
+    def log(self, message, color=None, bold=False):
+        strong = ''
         start = ''
         end = ''
-        if color == 'green':
-            start = "\033[92m"
+        if bold:
+            strong = '\033[1m'
+        if color in colors.keys():
             end = "\033[0m"
-        elif color == "red":
-            start = "\033[91m"
-            end = "\033[0m"
+            start = colors[color]
         if self.enabled:
-            print(f"[{self.name}] {start}{message}{end}")
+            print(f"[{self.name}]{strong}{start}{message}{end}")
 
 
 class LocalData:
