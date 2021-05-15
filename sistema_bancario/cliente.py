@@ -9,17 +9,17 @@ from queries import *
 settings = Settings()
 db_file = settings.db_file
 ConsoleLogger = Logger("Console")
-data_local = LocalData()
+local_data = LocalData()
 
 
 def saque():
-    saldo = read_query(data_local.connection, user_by_id.format("balance", data_local.id))[0][0]
+    saldo = read_query(local_data.connection, user_by_id.format("balance", local_data.id))[0][0]
     print(f"Saldo: R${saldo}")
     amount = confirmar("Sacar: R$", float, settings.CONFIRM)
     confirm = input(f"Sacar R${amount}? (s/n): ")
     if confirm in affirmations:
         if saldo >= amount >= 0:
-            execute_query(data_local.connection, update_info.format("balance", saldo - amount, data_local.id))
+            execute_query(local_data.connection, update_info.format("balance", saldo - amount, local_data.id))
             ConsoleLogger.log(f"R${amount} retirados da conta.")
         else:
             ConsoleLogger.log("Quantidade Inválida")
@@ -32,7 +32,7 @@ def deposito():
 
 
 def visualizar():
-    conta = read_query(data_local.connection, user_by_id.format("id, name, balance", data_local.id))[0]
+    conta = read_query(local_data.connection, user_by_id.format("id, name, balance", local_data.id))[0]
     id = conta[0]
     nome = conta[1]
     saldo = conta[2]
@@ -50,7 +50,7 @@ def transferir():
     amount = confirmar("Quantidade R$", float, settings.CONFIRM)
     desc = input("Comentario: ")
     print(receiver, amount)
-    if not transaction(data_local.connection, data_local.id, receiver, amount, desc):
+    if not transaction(local_data.connection, local_data.id, receiver, amount, desc):
         ConsoleLogger.log("Transferência Inválida")
 
 
@@ -59,10 +59,10 @@ def config():
 
 
 def sair():
-    data_local.id = None
-    data_local.connection = None
-    data_local.senha = None
-    ConsoleLogger.log("Saida efetuada.")
+    local_data.id = None
+    local_data.connection = None
+    local_data.senha = None
+    ConsoleLogger.log("Saída efetuada.")
     sys.exit()
 
 
@@ -90,13 +90,13 @@ def main():
     if not connection:
         sys.exit(1)
 
-    data_local.connection = connection
+    local_data.connection = connection
     print("-" * 50)
     id = confirmar("Conta Corrente: ", int)
     senha = confirmar("Senha: ")
     print("-" * 50)
     if check_login(connection, id, senha):
-        data_local.set_data(id, senha)
+        local_data.set_data(id, senha)
         ConsoleLogger.log("Login efetuado com sucesso!", color='green')
     else:
         ConsoleLogger.log("Login e Senha Incorretos.", color='red')

@@ -14,11 +14,12 @@ class Logger:
         end = ''
         if bold:
             strong = '\033[1m'
+            end = '\033[0m'
         if color in colors.keys():
             end = "\033[0m"
             start = colors[color]
         if self.enabled:
-            print(f"[{self.name}]{strong}{start}{message}{end}")
+            print(f"[{self.name}]{strong}{start} {message}{end}")
 
 
 class LocalData:

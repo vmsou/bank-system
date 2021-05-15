@@ -96,8 +96,16 @@ def config():
         Logger.enabled = False
 
 
+def sair():
+    local_data.id = None
+    local_data.connection = None
+    local_data.senha = None
+    ConsoleLogger.log("Saída efetuada.", bold=True)
+    sys.exit()
+
+
 def menu():
-    action_dict = {1: cadastrar_conta, 2: buscar_conta, 3: mudar_senha, 4: config, 5: exit}
+    action_dict = {1: cadastrar_conta, 2: buscar_conta, 3: mudar_senha, 4: config, 5: sair}
     print("Menu".center(50, "-"))
     while True:
         for i, j in enumerate(("Cadastrar", "Buscar", "Mudar Senha", "Configurações", "Sair"), start=1):
