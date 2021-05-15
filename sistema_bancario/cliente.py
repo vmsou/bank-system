@@ -36,9 +36,9 @@ def visualizar():
     id = conta[0]
     nome = conta[1]
     saldo = conta[2]
-    print("-"*40)
+    print("-" * 50)
     print(f"Nome: {nome}\nConta Corrente: {id}\nSaldo: {saldo}")
-    print("-" * 40)
+    print("-" * 50)
 
 
 def simular():
@@ -91,16 +91,16 @@ def main():
         sys.exit(1)
 
     data_local.connection = connection
-
+    print("-" * 50)
     id = confirmar("Conta Corrente: ", int)
     senha = confirmar("Senha: ")
+    print("-" * 50)
     if check_login(connection, id, senha):
         data_local.set_data(id, senha)
-        ConsoleLogger.log("Login efetuado com sucesso!")
+        ConsoleLogger.log("\033[92m Login efetuado com sucesso!\033[0m")
     else:
-        ConsoleLogger.log("Login e Senha Incorretos.")
+        ConsoleLogger.log("\033[91mLogin e Senha Incorretos.\033[0m")
         sys.exit(1)
-
     parser = argparse.ArgumentParser(description="Interface de cliente. "
                                                  "Utilizada para o realizar diversas operações visando movimentação de dinheiro")
     group = parser.add_mutually_exclusive_group()
