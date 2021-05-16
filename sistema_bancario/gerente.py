@@ -29,7 +29,7 @@ def cadastrar_conta():
 
     name = confirmar("Nome Completo: ", confirm=settings.CONFIRM)
     job = confirmar("Profissão: ", confirm=settings.CONFIRM)
-    renda = confirmar("Renda Mensal: ", float, confirm=settings.CONFIRM)
+    renda = confirmar("Renda Mensal: ", float, confirm=settings.CONFIRM, validation=validation.check_income)
     address = confirmar("Endereço: ", confirm=settings.CONFIRM)
     telefone = confirmar("Telefone: ", confirm=settings.CONFIRM)
     senha = confirmar("Senha: ", confirm=settings.CONFIRM)

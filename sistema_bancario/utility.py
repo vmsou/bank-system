@@ -40,6 +40,9 @@ def confirmar(mensagem, tipo=str, confirm=True, validation=None):
     while True:
         try:
             valor = tipo(input(mensagem))
+            if validation is not None:
+                if not validation(valor):
+                    raise ValueError
         except ValueError:
             print("Entrada Inválida. Tente Novamente.")
         else:

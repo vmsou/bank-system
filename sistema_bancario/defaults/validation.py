@@ -17,8 +17,9 @@ def check_job(title):
 
 
 def check_income(income):
-    """TODO: Verificar se renda mensal é maior ou igual a zero"""
-    ...
+    if income >= 0:
+        return True
+    return False
 
 
 def check_address(address):
