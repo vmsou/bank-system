@@ -30,7 +30,7 @@ class LocalData:
 
     def set_data(self, id, senha):
         self.id = id
-        self.senha = senha
+        self.password = senha
 
 
 affirmations = ('sim', 's', 'si', 'y', 'yes')
