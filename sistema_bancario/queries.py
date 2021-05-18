@@ -53,3 +53,7 @@ sequence_id = "SELECT seq FROM sqlite_sequence WHERE NAME='users';"
 '''Transaction Queries'''
 select_transactions = "SELECT * from transactions"
 add_transaction = "INSERT INTO {}(sender, receiver, amount, description) VALUES {};"
+formatted_transaction = """SELECT transactions.id, s.name,  r.name, transactions.amount
+                        FROM transactions
+                        JOIN users s ON transactions.sender = s.id
+                        JOIN users r ON transactions.receiver = r.id"""

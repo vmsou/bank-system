@@ -130,13 +130,6 @@ def check_login(connection, id, senha):
 
 if __name__ == '__main__':
     connection = create_connection(db_file)
-    t = read_query(connection, """SELECT transactions.id, w.name as winner, l.name, transactions.amount as loser 
-                                  FROM transactions
-                                  JOIN users w on transactions.sender = w.id
-                                  JOIN users l on transactions.receiver = l.id""")
-
-    for user in t:
-        print(user)
     #_prepare_table(connection)
     #dados = ("Vinicius3", "Engenheiro de Software", 11000, 'Rua Teste 999', '(41) 98765-4321')
     #insert_user(connection, dados)
