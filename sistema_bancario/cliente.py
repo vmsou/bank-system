@@ -36,9 +36,8 @@ def visualizar():
     id = conta[0]
     nome = conta[1]
     saldo = conta[2]
-    print("-" * 50)
-    print(f"Nome: {nome}\nConta Corrente: {id}\nSaldo: {saldo}")
-    print("-" * 50)
+    print("-" * 70)
+    print(f"Nome: {nome}\tConta Corrente: {id}\tSaldo: {saldo}")
 
 
 def simular():
@@ -69,9 +68,8 @@ def sair():
 def menu():
     action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: sair}
 
-    print("Menu".center(50, "-"))
-
     while True:
+        print("Menu".center(70, "-"))
         for i, j in enumerate(("Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Sair"), start=1):
             print(f"[{i}] {j}")
 
@@ -91,13 +89,14 @@ def main():
         sys.exit(1)
 
     local_data.connection = connection
-    print("-" * 50)
+    print("-" * 70)
     id = confirmar("Conta Corrente: ", int)
     senha = confirmar("Senha: ")
-    print("-" * 50)
+    print("-" * 70)
     if check_login(connection, id, senha):
         local_data.set_data(id, senha)
         ConsoleLogger.log("Login efetuado com sucesso!", color='green')
+        visualizar()
     else:
         ConsoleLogger.log("Login e Senha Incorretos.", color='red')
         sys.exit(1)
