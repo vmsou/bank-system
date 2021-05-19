@@ -104,8 +104,11 @@ def _read_transactions(connection):
 def transaction(connection, sender, receiver, amount, desc="NULL"):
     if sender == receiver:
         return False
+    if amount < 0:
+        return False
 
     sender_balance = read_query(connection, user_by_id.format("balance", sender))[0][0]
+
     if sender_balance >= amount:
         DBLogger.log_transaction(sender, receiver, amount)
         execute_query(connection, add_transaction.format(exchanges, (sender, receiver, amount, desc)))
