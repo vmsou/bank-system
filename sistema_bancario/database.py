@@ -122,6 +122,7 @@ def transaction(connection, sender, receiver, amount, desc="NULL"):
 
 
 def check_login(connection, id, senha):
+    loading("Verificando Login")  # Basicamente enfeite, o login é verificado de forma rápida
     try:
         password = read_query(connection, user_by_id.format("password", id))[0][0]
     except IndexError:

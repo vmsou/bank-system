@@ -3,7 +3,7 @@ import sys
 
 from database import create_connection, check_login, read_query, execute_query, transaction
 from defaults.settings import Settings
-from utility import Logger, LocalData, confirmar, affirmations, loading
+from utility import Logger, LocalData, confirmar, affirmations
 from queries import *
 
 settings = Settings()
@@ -93,7 +93,7 @@ def main():
     id = confirmar("Conta Corrente: ", int)
     senha = confirmar("Senha: ")
     print("-" * 70)
-    loading("Verificando Login") # Basicamente enfeite, o login é verificado de forma rápida
+
     if check_login(connection, id, senha):
         local_data.set_data(id, senha)
         ConsoleLogger.log("Login efetuado com sucesso!", color='green')
