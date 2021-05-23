@@ -39,7 +39,7 @@ class LocalData:
         self.password = senha
 
 
-def confirmar(mensagem, tipo=str, confirm=True, validation=None):
+def confirmar(mensagem, tipo=str, confirm=True, validation=None, goto=None):
     while True:
         try:
             valor = input(mensagem)
@@ -47,7 +47,9 @@ def confirmar(mensagem, tipo=str, confirm=True, validation=None):
                 if not validation(valor):
                     raise ValueError
             if valor.lower() in exits:
-                return False
+                if not goto:
+                    return False
+                goto()
             valor = tipo(valor)
         except ValueError:
             print("Entrada Inválida. Tente Novamente.")
