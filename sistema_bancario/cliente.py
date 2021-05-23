@@ -1,23 +1,15 @@
 import argparse
 import sys
-import time
 
 from database import create_connection, check_login, read_query, execute_query, transaction
 from defaults.settings import Settings
-from utility import Logger, LocalData, confirmar, affirmations
+from utility import Logger, LocalData, confirmar, affirmations, loading
 from queries import *
 
 settings = Settings()
 db_file = settings.db_file
 ConsoleLogger = Logger("Console")
 local_data = LocalData()
-
-
-def loading(message="Carregando", min=0, max=100, step=1, delay=0.01):
-    for i in range(min, max+1, step):
-        print(f"\r{message}... {i}%", end='', flush=True)
-        time.sleep(delay)
-    print()
 
 
 def saque():

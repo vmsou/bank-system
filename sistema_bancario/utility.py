@@ -1,5 +1,10 @@
+from time import sleep
+
 colors = {"purple": '\033[95m', "blue": '\033[94m', "ciano": '\033[96m',
          "green": '\033[92m', "yellow": '\033[93m', "red": '\033[91m'}
+
+
+affirmations = ('sim', 's', 'si', 'y', 'yes')
 
 
 class Logger:
@@ -33,9 +38,6 @@ class LocalData:
         self.password = senha
 
 
-affirmations = ('sim', 's', 'si', 'y', 'yes')
-
-
 def confirmar(mensagem, tipo=str, confirm=True, validation=None):
     while True:
         try:
@@ -52,3 +54,11 @@ def confirmar(mensagem, tipo=str, confirm=True, validation=None):
             else:
                 break
     return valor
+
+
+def loading(message="Carregando", min=0, max=100, step=1, delay=0.01):
+    for i in range(min, max+1, step):
+        print(f"\r{message}... {i}%", end='', flush=True)
+        sleep(delay)
+    print()
+
