@@ -5,6 +5,7 @@ colors = {"purple": '\033[95m', "blue": '\033[94m', "ciano": '\033[96m',
 
 
 affirmations = ('sim', 's', 'si', 'y', 'yes')
+exits = ('exit', 'sair', 'cancelar', 'back', 'voltar')
 
 
 class Logger:
@@ -41,10 +42,13 @@ class LocalData:
 def confirmar(mensagem, tipo=str, confirm=True, validation=None):
     while True:
         try:
-            valor = tipo(input(mensagem))
+            valor = input(mensagem)
             if validation is not None:
                 if not validation(valor):
                     raise ValueError
+            if valor.lower() in exits:
+                return False
+            valor = tipo(valor)
         except ValueError:
             print("Entrada Inválida. Tente Novamente.")
         else:
