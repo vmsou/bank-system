@@ -1,6 +1,6 @@
 import sqlite3
 
-from utility import Logger
+from utility import Logger, loading
 
 from queries import *
 
@@ -25,6 +25,7 @@ DBLogger = DatabaseLogger("Database")
 
 def create_connection(database_name):
     connection = None
+    loading("Loading Database")
     try:
         connection = sqlite3.connect(database_name)
         DBLogger.log("Connection to DB was successful.", bold=True)
