@@ -91,7 +91,11 @@ def main():
     local_data.connection = connection
     print("-" * 70)
     id = confirmar("Conta Corrente: ", int)
+    if not id:
+        sair()
     senha = confirmar("Senha: ")
+    if not senha:
+        sair()
     print("-" * 70)
 
     if check_login(connection, id, senha):
