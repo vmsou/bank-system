@@ -15,16 +15,12 @@ local_data = LocalData()
 def saque():
     saldo = read_query(local_data.connection, user_by_id.format("balance", local_data.id))[0][0]
     print(f"Saldo: R${saldo}")
-    amount = confirmar("Sacar: R$", float, settings.CONFIRM)
-    confirm = input(f"Sacar R${amount}? (s/n): ")
-    if confirm in affirmations:
-        if saldo >= amount >= 0:
-            execute_query(local_data.connection, update_info.format("balance", saldo - amount, local_data.id))
-            ConsoleLogger.log(f"R${amount} retirados da conta.")
-        else:
-            ConsoleLogger.log("Quantidade Inválida")
+    amount = confirmar("Sacar: R$", tipo=float, confirm=settings.CONFIRM, goto=menu)
+    if saldo >= amount >= 0:
+        execute_query(local_data.connection, update_info.format("balance", saldo - amount, local_data.id))
+        ConsoleLogger.log(f"R${amount} retirados da conta.")
     else:
-        print("Cancelado.")
+        ConsoleLogger.log("Quantidade Inválida")
 
 
 def deposito():
@@ -45,8 +41,8 @@ def simular():
 
 
 def transferir():
-    receiver = confirmar("ID Recebedor: ", int, settings.CONFIRM)
-    amount = confirmar("Quantidade R$", float, settings.CONFIRM)
+    receiver = confirmar("ID Recebedor: ", int, settings.CONFIRM, goto=menu)
+    amount = confirmar("Quantidade R$", float, settings.CONFIRM, goto=menu)
     desc = input("Comentario: ")
     print(receiver, amount)
     if not transaction(local_data.connection, local_data.id, receiver, amount, desc):
@@ -73,7 +69,7 @@ def menu():
         for i, j in enumerate(("Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Sair"), start=1):
             print(f"[{i}] {j}")
 
-        action = int(input("Ação: "))
+        action = confirmar("Ação: ", confirm=False, tipo=int, goto=sair)
         print()
         try:
             action_dict[action]()
@@ -90,10 +86,10 @@ def main():
 
     local_data.connection = connection
     print("-" * 70)
-    id = confirmar("Conta Corrente: ", int)
+    id = confirmar("Conta Corrente: ", int, goto=menu)
     if not id:
         sair()
-    senha = confirmar("Senha: ")
+    senha = confirmar("Senha: ", goto=menu)
     if not senha:
         sair()
     print("-" * 70)

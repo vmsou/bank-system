@@ -25,7 +25,7 @@ DBLogger = DatabaseLogger("Database")
 
 def create_connection(database_name):
     connection = None
-    loading("Loading Database")
+    loading("Loading Database", step=5, delay=0.01)
     try:
         connection = sqlite3.connect(database_name)
         DBLogger.log("Connection to DB was successful.", bold=True)
