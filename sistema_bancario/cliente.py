@@ -69,7 +69,7 @@ def menu():
         for i, j in enumerate(("Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Sair"), start=1):
             print(f"[{i}] {j}")
 
-        action = confirmar("Ação: ", confirm=False, tipo=int, goto=sair)
+        action = confirmar("Ação: ", confirm=False, tipo=int, goto=menu)
         print()
         try:
             action_dict[action]()
@@ -79,28 +79,28 @@ def menu():
             ConsoleLogger.log("Ação inválida")
 
 
+def login():
+    print("-" * 70)
+    id = confirmar("Conta Corrente: ", int, goto=login)
+    senha = confirmar("Senha: ", goto=login)
+    print("-" * 70)
+    if check_login(local_data.connection, id, senha):
+        local_data.set_data(id, senha)
+        ConsoleLogger.log("Login efetuado com sucesso!", color='green')
+        visualizar()
+    else:
+        ConsoleLogger.log("Login e Senha Incorretos.", color='red')
+        login()
+
+
 def main():
     connection = create_connection(db_file)
     if not connection:
         sys.exit(1)
 
     local_data.connection = connection
-    print("-" * 70)
-    id = confirmar("Conta Corrente: ", int, goto=menu)
-    if not id:
-        sair()
-    senha = confirmar("Senha: ", goto=menu)
-    if not senha:
-        sair()
-    print("-" * 70)
+    login()
 
-    if check_login(connection, id, senha):
-        local_data.set_data(id, senha)
-        ConsoleLogger.log("Login efetuado com sucesso!", color='green')
-        visualizar()
-    else:
-        ConsoleLogger.log("Login e Senha Incorretos.", color='red')
-        sys.exit(1)
     parser = argparse.ArgumentParser(description="Interface de cliente. "
                                                  "Utilizada para o realizar diversas operações visando movimentação de dinheiro")
     group = parser.add_mutually_exclusive_group()
