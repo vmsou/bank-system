@@ -33,6 +33,7 @@ class LocalData:
         self.id = None
         self.password = None
         self.connection = None
+        self.logged = False
 
     def set_data(self, id, senha):
         self.id = id

@@ -12,6 +12,17 @@ ConsoleLogger = Logger("Console")
 local_data = LocalData()
 
 
+def login_required(func):
+    def wrapper():
+        if local_data.logged:
+            func()
+        else:
+            ConsoleLogger.log("Login necessário!", color='red')
+            login()
+    return wrapper
+
+
+@login_required
 def saque():
     saldo = read_query(local_data.connection, user_by_id.format("balance", local_data.id))[0][0]
     print(f"Saldo: R${saldo}")
@@ -23,10 +34,12 @@ def saque():
         ConsoleLogger.log("Quantidade Inválida")
 
 
+@login_required
 def deposito():
     print("Depositando...")
 
 
+@login_required
 def visualizar():
     conta = read_query(local_data.connection, user_by_id.format("id, name, balance", local_data.id))[0]
     id = conta[0]
@@ -36,10 +49,12 @@ def visualizar():
     print(f"Nome: {nome}\tConta Corrente: {id}\tSaldo: {saldo}")
 
 
+@login_required
 def simular():
     print("Simulando investimento...")
 
 
+@login_required
 def transferir():
     receiver = confirmar("ID Recebedor: ", int, settings.CONFIRM, goto=menu)
     amount = confirmar("Quantidade R$", float, settings.CONFIRM, goto=menu)
@@ -86,6 +101,7 @@ def login():
     print("-" * 70)
     if check_login(local_data.connection, id, senha):
         local_data.set_data(id, senha)
+        local_data.logged = True
         ConsoleLogger.log("Login efetuado com sucesso!", color='green')
         visualizar()
     else:
@@ -95,10 +111,11 @@ def login():
 
 def main():
     connection = create_connection(db_file)
+    local_data.connection = connection
     if not connection:
         sys.exit(1)
 
-    local_data.connection = connection
+    menu()
     login()
 
     parser = argparse.ArgumentParser(description="Interface de cliente. "
