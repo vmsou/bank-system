@@ -68,32 +68,6 @@ def config():
     print("Configurações...")
 
 
-def sair():
-    local_data.id = None
-    local_data.connection = None
-    local_data.senha = None
-    ConsoleLogger.log("Saída efetuada.")
-    sys.exit()
-
-
-def menu():
-    action_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: sair}
-
-    while True:
-        print("Menu".center(70, "-"))
-        for i, j in enumerate(("Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Sair"), start=1):
-            print(f"[{i}] {j}")
-
-        action = confirmar("Ação: ", confirm=False, tipo=int, goto=menu)
-        print()
-        try:
-            action_dict[action]()
-        except IndexError:
-            ConsoleLogger.log("Ação não encontrada")
-        except ValueError:
-            ConsoleLogger.log("Ação inválida")
-
-
 def login():
     print("-" * 70)
     id = confirmar("Conta Corrente: ", int, goto=login)
@@ -107,6 +81,57 @@ def login():
     else:
         ConsoleLogger.log("Login e Senha Incorretos.", color='red')
         login()
+
+
+def logout():
+    local_data.logged = False
+    local_data.id = None
+    local_data.password = None
+    menu()
+
+
+def sair():
+    local_data.id = None
+    local_data.connection = None
+    local_data.senha = None
+    ConsoleLogger.log("Saída efetuada.")
+    sys.exit()
+
+
+def menu():
+    in_name = ["Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Log out", "Sair"]
+    in_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: logout, 8: sair}
+
+    out_name = ["Login", "Sair"]
+    out_dict = {1: login, 2: sair}
+
+    action_name = []
+    action_dict = {}
+
+    while True:
+        if local_data.logged:
+            action_name = in_name
+            action_dict = in_dict
+        else:
+            action_name = out_name
+            action_dict = out_dict
+
+        print("Menu".center(70, "-"))
+        for i, j in enumerate(action_name, start=1):
+            print(f"[{i}] {j}")
+
+        action = confirmar("Ação: ", confirm=False, tipo=int, goto=menu)
+        try:
+            action_dict[action]()
+        except IndexError:
+            ConsoleLogger.log("Ação não encontrada")
+            continue
+        except ValueError:
+            ConsoleLogger.log("Ação inválida")
+            continue
+        except KeyError:
+            ConsoleLogger.log("Ação não encontrada")
+            continue
 
 
 def main():
