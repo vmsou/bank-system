@@ -70,8 +70,8 @@ def config():
 
 def login():
     print("-" * 70)
-    id = confirmar("Conta Corrente: ", int, goto=login)
-    senha = confirmar("Senha: ", goto=login)
+    id = confirmar("Conta Corrente: ", int, goto=menu)
+    senha = confirmar("Senha: ", goto=menu)
     print("-" * 70)
     if check_login(local_data.connection, id, senha):
         local_data.set_data(id, senha)
@@ -87,6 +87,7 @@ def logout():
     local_data.logged = False
     local_data.id = None
     local_data.password = None
+    ConsoleLogger.log("Logout efetuado.")
     menu()
 
 
@@ -120,7 +121,7 @@ def menu():
         for i, j in enumerate(action_name, start=1):
             print(f"[{i}] {j}")
 
-        action = confirmar("Ação: ", confirm=False, tipo=int, goto=menu)
+        action = confirmar("Ação: ", confirm=False, tipo=int, goto=sair)
         try:
             action_dict[action]()
         except IndexError:
@@ -140,8 +141,9 @@ def main():
     if not connection:
         sys.exit(1)
 
+    ConsoleLogger.log("Durante qualquer momento você pode escrever 'sair' ou 'cancelar' para sair do input", color='yellow')
+
     menu()
-    login()
 
     parser = argparse.ArgumentParser(description="Interface de cliente. "
                                                  "Utilizada para o realizar diversas operações visando movimentação de dinheiro")
