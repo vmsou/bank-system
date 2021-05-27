@@ -12,7 +12,6 @@ Sistema bancário, em que existem o sistema separado para o gerente e para o cli
 Essa é uma lista dos recursos utilizados para fazer esse projeto
 ### 🛠 Construido utilizando
 - sqlite3
-- sys
 - argparse
 
 ## Principais Funcionalidades
@@ -52,8 +51,7 @@ python cliente.py -h ou --help
 </h4>
 
 ## Para fazer:
+- [ ] Validação de Senha [Gerente]
 - [ ] Depósito [Cliente]
 - [ ] Simulação de Investimento [Cliente]
-- [ ] Verificar Login [Base de Dados]
 - [ ] Hash para as senhas [Base de Dados]
-- [ ] Verificar Login [Base de Dados]
