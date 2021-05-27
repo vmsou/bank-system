@@ -91,6 +91,10 @@ def logout():
     menu()
 
 
+def info():
+    print("Informações sobre o projeto...")
+
+
 def sair():
     local_data.id = None
     local_data.connection = None
@@ -100,11 +104,11 @@ def sair():
 
 
 def menu():
-    in_name = ["Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Log out", "Sair"]
-    in_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: logout, 8: sair}
+    in_name = ["Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Log out", "Informações", "Sair"]
+    in_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: logout, 8: info, 9: sair}
 
-    out_name = ["Login", "Sair"]
-    out_dict = {1: login, 2: sair}
+    out_name = ["Login", "Informações", "Sair"]
+    out_dict = {1: login, 2: info, 3: sair}
 
     action_name = []
     action_dict = {}

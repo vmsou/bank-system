@@ -40,6 +40,9 @@ class LocalData:
         self.password = senha
 
 
+ConsoleLogger = Logger("Console")
+
+
 def confirmar(mensagem, tipo=str, confirm=True, validation=None, goto=None):
     while True:
         try:
@@ -53,7 +56,7 @@ def confirmar(mensagem, tipo=str, confirm=True, validation=None, goto=None):
                 goto()
             valor = tipo(valor)
         except ValueError:
-            print("Entrada Inválida. Tente Novamente.")
+            ConsoleLogger.log("Entrada Inválida. Tente Novamente.")
         else:
             if confirm:
                 if input("Confirmar (s/n): ").lower() in affirmations:
