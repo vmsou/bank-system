@@ -103,23 +103,26 @@ def sair():
     sys.exit()
 
 
-def menu():
-    in_name = ["Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Log out", "Informações", "Sair"]
+def options():
+    in_name = ["Saque", "Deposito", "Visualizar", "Simular", "Transferir", "Configurações", "Log out", "Informações",  "Sair"]
     in_dict = {1: saque, 2: deposito, 3: visualizar, 4: simular, 5: transferir, 6: config, 7: logout, 8: info, 9: sair}
 
     out_name = ["Login", "Informações", "Sair"]
     out_dict = {1: login, 2: info, 3: sair}
 
-    action_name = []
-    action_dict = {}
+    if local_data.logged:
+        action_name = in_name
+        action_dict = in_dict
+    else:
+        action_name = out_name
+        action_dict = out_dict
 
+    return action_name, action_dict
+
+
+def menu():
     while True:
-        if local_data.logged:
-            action_name = in_name
-            action_dict = in_dict
-        else:
-            action_name = out_name
-            action_dict = out_dict
+        action_name, action_dict = options()
 
         print("Menu".center(70, "-"))
         for i, j in enumerate(action_name, start=1):
