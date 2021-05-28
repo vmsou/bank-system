@@ -36,7 +36,16 @@ def saque():
 
 @login_required
 def deposito():
-    print("Depositando...")
+    while True:
+        saldo = read_query(local_data.connection, user_by_id.format("balance", local_data.id))[0][0]
+        print(f"Saldo: R${saldo}")
+        amount = confirmar("Depositar: R$", tipo=float, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
+        if amount <= 10_000:
+            execute_query(local_data.connection, update_info.format("balance", saldo + amount, local_data.id))
+            ConsoleLogger.log(f"R${amount} adicionado na conta, Você agora possui R${saldo+amount}")
+            break
+        else:
+            ConsoleLogger.log("Quantidade Inválida, o valor a ser depositado deve ser no máximo R$10.000. Tente novamente.")
 
 
 @login_required
@@ -51,7 +60,29 @@ def visualizar():
 
 @login_required
 def simular():
-    print("Simulando investimento...")
+    invest_inicial = confirmar("Valor do investimento inicial: R$", tipo=float, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
+    invest_tempom = confirmar("O tempo de investimento em meses: ", tipo=int, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
+    if invest_tempom / 12 >= 5:
+        taxa = 0.5 / 100 # 0,5% taxa por mes caso estiver investindo por mais de 5 anos
+    else:
+        taxa = 1 / 100 # 1% taxa por mes caso estiver investindo por menos que 5 anos
+
+    juros = 1.5 /100 # juros mensal de 1,5%
+    invest_tempom = range(1, invest_tempom+1)
+    invest = invest_inicial
+
+    for x in invest_tempom:
+        invest += invest*juros
+        if x % 12 == 0:
+            invest -= invest*taxa
+
+    if invest_tempom[-1] < 12: #se o tempo for menor que 12 meses desconta 1% do valor total
+        invest -= invest*taxa
+
+    print(f'O valor total investido foi: R${round(invest_inicial, 2)}')
+    print(f'O total acumulado no investimento foi: R${round((invest - invest_inicial), 2)}')
+    print(f'O valor total final do investimento é: R${round(invest, 2)}')
+
 
 
 @login_required
