@@ -52,6 +52,6 @@ python cliente.py -h ou --help
 
 ## Para fazer:
 - [ ] Validação de Senha [Gerente]
-- [ ] Depósito [Cliente]
-- [ ] Simulação de Investimento [Cliente]
+- [X] ~~Depósito [Cliente]~~
+- [X] ~~Simulação de Investimento [Cliente]~~
 - [ ] Hash para as senhas [Base de Dados]
