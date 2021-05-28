@@ -17,6 +17,7 @@ def check_job(title):
 
 
 def check_income(income):
+    income = float(income) 
     if income >= 0:
         return True
     return False
