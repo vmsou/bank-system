@@ -95,7 +95,15 @@ def transferir():
 
 
 def config():
-    print("Configurações...")
+    confirm = input("Desativar confirmações? (s, n): ")
+    settings.CONFIRM = True
+    if confirm.lower() in affirmations:
+        settings.CONFIRM = False
+
+    dlog = input("Desativar logs? (s, n): ")
+    Logger.enabled = True
+    if dlog.lower() in affirmations:
+        Logger.enabled = False
 
 
 def login():
