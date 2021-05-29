@@ -106,18 +106,33 @@ def sair():
     sys.exit()
 
 
-def menu():
+def options():
+    action_name = ["Cadastrar", "Buscar", "Mudar Senha", "Configurações", "Sair"]
     action_dict = {1: cadastrar_conta, 2: buscar_conta, 3: mudar_senha, 4: config, 5: sair}
-    print("Menu".center(50, "-"))
+
+    return action_name, action_dict
+
+
+def menu():
     while True:
-        for i, j in enumerate(("Cadastrar", "Buscar", "Mudar Senha", "Configurações", "Sair"), start=1):
+        action_name, action_dict = options()
+
+        print("Menu".center(70, "-"))
+        for i, j in enumerate(action_name, start=1):
             print(f"[{i}] {j}")
 
-        action = input("Ação: ")
+        action = confirmar("Ação: ", confirm=False, tipo=int, goto=sair)
         try:
-            action_dict[int(action)]()
+            action_dict[action]()
         except IndexError:
-            print("Ação não encontrada.")
+            ConsoleLogger.log("Ação não encontrada")
+            continue
+        except ValueError:
+            ConsoleLogger.log("Ação inválida")
+            continue
+        except KeyError:
+            ConsoleLogger.log("Ação não encontrada")
+            continue
 
 
 def main():
