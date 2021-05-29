@@ -52,11 +52,11 @@ def deposito():
 @login_required
 def visualizar():
     conta = read_query(local_data.connection, user_by_id.format("id, name, balance", local_data.id))[0]
-    id = conta[0]
+    conta_id = conta[0]
     nome = conta[1]
     saldo = conta[2]
     print("-" * 70)
-    print(f"Nome: {nome}\tConta Corrente: {id}\tSaldo: {saldo}")
+    print(f"Nome: {nome}\tConta Corrente: {conta_id}\tSaldo: {saldo}")
 
 
 @login_required
@@ -100,11 +100,11 @@ def config():
 
 def login():
     print("-" * 70)
-    id = confirmar("Conta Corrente: ", int, goto=menu)
+    conta_id = confirmar("Conta Corrente: ", int, goto=menu)
     senha = confirmar("Senha: ", goto=menu)
     print("-" * 70)
-    if check_login(local_data.connection, id, senha):
-        local_data.set_data(id, senha)
+    if check_login(local_data.connection, conta_id, senha):
+        local_data.set_data(conta_id, senha)
         local_data.logged = True
         ConsoleLogger.log("Login efetuado com sucesso!", color='green')
         visualizar()

@@ -21,10 +21,10 @@ def gen_id():
 
 
 def cadastrar_conta():
-    id = gen_id()
+    conta_id = gen_id()
 
     print(f"{'':-^30s}")
-    print(f"{f'> Cadastrar Conta ID: {id} <':^30s}")
+    print(f"{f'> Cadastrar Conta ID: {conta_id} <':^30s}")
     print(f"{'':-^30s}")
 
     name = confirmar("Nome Completo: ", confirm=settings.CONFIRM, goto=menu)
@@ -78,11 +78,11 @@ def buscar_conta():
 
 
 def mudar_senha():
-    id = input('ID: ')
-    user = read_query(local_data.connection, user_by_id.format('name', id))[0][0]
+    conta_id = confirmar(input('ID: '), confirm=settings.CONFIRM, goto=menu)
+    user = read_query(local_data.connection, user_by_id.format('name', conta_id))[0][0]
     ConsoleLogger.log(f"Mudando senha do usuario: {user}")
     nova_senha = confirmar(input("Nova senha: "), confirm=settings.CONFIRM, goto=menu, validation=validation.check_password)
-    execute_query(local_data.connection, update_info.format('password', nova_senha, id))
+    execute_query(local_data.connection, update_info.format('password', nova_senha, conta_id))
     ConsoleLogger.log("Senha mudada.")
 
 
@@ -124,7 +124,7 @@ def main():
     connection = create_connection(db_file)
     if not connection:
         sys.exit(1)
-
+    ConsoleLogger.log("Durante qualquer momento você pode escrever 'sair' ou 'cancelar' para sair do input", color='yellow')
     local_data.connection = connection
 
     parser = argparse.ArgumentParser(description="Interface de gerente. Utilizada para cadastrar novas contas, "
