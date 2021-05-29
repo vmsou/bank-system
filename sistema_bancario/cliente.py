@@ -3,6 +3,7 @@ import sys
 
 from database import create_connection, check_login, read_query, execute_query, transaction
 from defaults.settings import Settings
+from defaults import validation
 from utility import Logger, LocalData, confirmar, affirmations
 from queries import *
 
@@ -82,7 +83,6 @@ def simular():
     print(f'O valor total investido foi: R${round(invest_inicial, 2)}')
     print(f'O total acumulado no investimento foi: R${round((invest - invest_inicial), 2)}')
     print(f'O valor total final do investimento é: R${round(invest, 2)}')
-
 
 
 @login_required

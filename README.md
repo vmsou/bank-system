@@ -22,9 +22,9 @@ Essa é uma lista dos recursos utilizados para fazer esse projeto
 
 ### Cliente
 - [x] Saque
-- [ ] Depósito
+- [x] Depósito
 - [x] Visualização de saldo
-- [ ] Simulação de Investimento
+- [x] Simulação de Investimento
 
 ## Como executa-lo
 Se você ter acesso a um terminal
