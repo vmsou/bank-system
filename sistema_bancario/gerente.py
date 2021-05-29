@@ -27,12 +27,12 @@ def cadastrar_conta():
     print(f"{f'> Cadastrar Conta ID: {id} <':^30s}")
     print(f"{'':-^30s}")
 
-    name = confirmar("Nome Completo: ", confirm=settings.CONFIRM)
-    job = confirmar("Profissão: ", confirm=settings.CONFIRM)
-    renda = confirmar("Renda Mensal: ", float, confirm=settings.CONFIRM, validation=validation.check_income)
-    address = confirmar("Endereço: ", confirm=settings.CONFIRM)
-    telefone = confirmar("Telefone: ", confirm=settings.CONFIRM)
-    senha = confirmar("Senha: ", confirm=settings.CONFIRM)
+    name = confirmar("Nome Completo: ", confirm=settings.CONFIRM, goto=menu)
+    job = confirmar("Profissão: ", confirm=settings.CONFIRM, goto=menu)
+    renda = confirmar("Renda Mensal: ", float, confirm=settings.CONFIRM, validation=validation.check_income, goto=menu)
+    address = confirmar("Endereço: ", confirm=settings.CONFIRM, goto=menu)
+    telefone = confirmar("Telefone: ", confirm=settings.CONFIRM, goto=menu)
+    senha = confirmar("Senha: ", confirm=settings.CONFIRM, goto=menu)
     cadastrar = input("Cadastrar Conta (s/n)? ")
 
     if cadastrar.lower() in affirmations:
@@ -40,26 +40,25 @@ def cadastrar_conta():
         ConsoleLogger.log("Cadastrando...")
         insert_user(local_data.connection, dados)
         ConsoleLogger.log("Cadastrado!")
-
     else:
         ConsoleLogger.log("Cancelado.")
 
 
 def buscar_conta():
     info = "*"
-    escolha = confirmar("Buscar por ID ou Nome? ", confirm=settings.CONFIRM)
+    escolha = confirmar("Buscar por ID ou Nome? ", confirm=settings.CONFIRM, goto=menu)
     if not escolha:
         menu()
 
     users = None
     if escolha.lower() == 'id':
-        corrente = confirmar("ID: ", int, confirm=settings.CONFIRM)
+        corrente = confirmar("ID: ", int, confirm=settings.CONFIRM, goto=menu)
         if not corrente:
             menu()
         ConsoleLogger.log("Buscando por ID...")
         users = read_query(local_data.connection, user_by_id.format(info, corrente))
     elif escolha.lower() == 'nome':
-        nome = confirmar("Nome: ", confirm=settings.CONFIRM)
+        nome = confirmar("Nome: ", confirm=settings.CONFIRM, goto=menu)
         if not nome:
             menu()
         ConsoleLogger.log("Buscando pelo nome...")
@@ -82,12 +81,9 @@ def mudar_senha():
     id = input('ID: ')
     user = read_query(local_data.connection, user_by_id.format('name', id))[0][0]
     ConsoleLogger.log(f"Mudando senha do usuario: {user}")
-    nova_senha = input("Nova senha: ")
-    if validation.check_password(nova_senha):
-        execute_query(local_data.connection, update_info.format('password', nova_senha, id))
-        ConsoleLogger.log("Senha mudada.")
-    else:
-        print("Senha Inválida!")
+    nova_senha = confirmar(input("Nova senha: "), confirm=settings.CONFIRM, goto=menu, validation=validation.check_password)
+    execute_query(local_data.connection, update_info.format('password', nova_senha, id))
+    ConsoleLogger.log("Senha mudada.")
 
 
 def config():
