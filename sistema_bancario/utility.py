@@ -47,14 +47,15 @@ def confirmar(mensagem, tipo=str, confirm=True, validation=None, goto=None):
     while True:
         try:
             valor = input(mensagem)
-            if validation is not None:
-                if not validation(valor):
-                    raise ValueError
             if valor.lower() in exits:
                 if not goto:
                     return False
                 goto()
+
             valor = tipo(valor)
+            if validation is not None:
+                if not validation(valor):
+                    raise ValueError
         except ValueError:
             ConsoleLogger.log("Entrada Inválida. Tente Novamente.")
         else:

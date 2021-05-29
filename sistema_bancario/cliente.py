@@ -64,25 +64,24 @@ def simular():
     invest_inicial = confirmar("Valor do investimento inicial: R$", tipo=float, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
     invest_tempom = confirmar("O tempo de investimento em meses: ", tipo=int, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
     if invest_tempom / 12 >= 5:
-        taxa = 0.5 / 100 # 0,5% taxa por mes caso estiver investindo por mais de 5 anos
+        taxa = 0.5 / 100  # 0,5% taxa por mes caso estiver investindo por mais de 5 anos
     else:
-        taxa = 1 / 100 # 1% taxa por mes caso estiver investindo por menos que 5 anos
+        taxa = 1 / 100  # 1% taxa por mes caso estiver investindo por menos que 5 anos
 
-    juros = 1.5 /100 # juros mensal de 1,5%
-    invest_tempom = range(1, invest_tempom+1)
+    juros = 1.5 / 100  # juros mensal de 1,5%
     invest = invest_inicial
 
-    for x in invest_tempom:
+    for x in range(1, invest_tempom+1):
         invest += invest*juros
         if x % 12 == 0:
             invest -= invest*taxa
 
-    if invest_tempom[-1] < 12: #se o tempo for menor que 12 meses desconta 1% do valor total
+    if invest_tempom < 12:  #se o tempo for menor que 12 meses desconta 1% do valor total
         invest -= invest*taxa
 
-    print(f'O valor total investido foi: R${round(invest_inicial, 2)}')
-    print(f'O total acumulado no investimento foi: R${round((invest - invest_inicial), 2)}')
-    print(f'O valor total final do investimento é: R${round(invest, 2)}')
+    print(f'O valor total investido foi: R${invest_inicial:.2f}')
+    print(f'O total acumulado no investimento foi: R${(invest - invest_inicial):.2f}')
+    print(f'O valor total final do investimento é: R${invest:.2f}')
 
 
 @login_required
