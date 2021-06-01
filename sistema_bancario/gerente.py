@@ -78,10 +78,10 @@ def buscar_conta():
 
 
 def mudar_senha():
-    conta_id = confirmar(input('ID: '), confirm=settings.CONFIRM, goto=menu)
+    conta_id = confirmar('ID: ', confirm=settings.CONFIRM, goto=menu)
     user = read_query(local_data.connection, user_by_id.format('name', conta_id))[0][0]
     ConsoleLogger.log(f"Mudando senha do usuario: {user}")
-    nova_senha = confirmar(input("Nova senha: "), confirm=settings.CONFIRM, goto=menu, validation=validation.check_password)
+    nova_senha = confirmar("Nova senha: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_password)
     execute_query(local_data.connection, update_info.format('password', nova_senha, conta_id))
     ConsoleLogger.log("Senha mudada.")
 
