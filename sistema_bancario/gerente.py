@@ -32,7 +32,7 @@ def cadastrar_conta():
     renda = confirmar("Renda Mensal: ", float, confirm=settings.CONFIRM, validation=validation.check_income, goto=menu)
     address = confirmar("Endereço: ", confirm=settings.CONFIRM, goto=menu)
     telefone = confirmar("Telefone: ", confirm=settings.CONFIRM, goto=menu)
-    senha = confirmar("Senha: ", confirm=settings.CONFIRM, goto=menu)
+    senha = confirmar("Senha: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_password)
     cadastrar = input("Cadastrar Conta (s/n)? ")
 
     if cadastrar.lower() in affirmations:
