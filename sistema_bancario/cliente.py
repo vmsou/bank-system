@@ -1,5 +1,6 @@
 import argparse
 import sys
+import matplotlib.pyplot as plt
 
 from database import create_connection, check_login, read_query, execute_query, transaction
 from defaults.settings import Settings
@@ -61,27 +62,34 @@ def visualizar():
 
 @login_required
 def simular():
-    invest_inicial = confirmar("Valor do investimento inicial: R$", tipo=float, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
+    invest = [confirmar("Valor do investimento inicial: R$", tipo=float, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)]
     invest_tempom = confirmar("O tempo de investimento em meses: ", tipo=int, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
     if invest_tempom / 12 >= 5:
-        taxa = 0.5 / 100  # 0,5% taxa por mes caso estiver investindo por mais de 5 anos
+        taxa = 0.5 / 100  # 0,5% taxa por ano caso estiver investindo por mais de 5 anos
     else:
-        taxa = 1 / 100  # 1% taxa por mes caso estiver investindo por menos que 5 anos
+        taxa = 1 / 100  # 1% taxa por ano caso estiver investindo por menos que 5 anos
 
     juros = 1.5 / 100  # juros mensal de 1,5%
-    invest = invest_inicial
 
-    for x in range(1, invest_tempom+1):
-        invest += invest*juros
-        if x % 12 == 0:
-            invest -= invest*taxa
+    for x in range(invest_tempom):
+        invest.append((invest[x]*juros + invest[x])) #+= invest*juros
+        if x % 11 == 0:
+            invest[x+1] -= invest[x+1]*taxa
+            
 
     if invest_tempom < 12:  #se o tempo for menor que 12 meses desconta 1% do valor total
-        invest -= invest*taxa
+        invest[-1] -= invest[-1]*taxa
 
-    print(f'O valor total investido foi: R${invest_inicial:.2f}')
-    print(f'O total acumulado no investimento foi: R${(invest - invest_inicial):.2f}')
-    print(f'O valor total final do investimento é: R${invest:.2f}')
+    print(f'O valor total investido foi: R${invest[0]:.2f}')
+    print(f'O total acumulado no investimento foi: R${(invest[-1] - invest[0]):.2f}')
+    print(f'O valor total final do investimento é: R${invest[-1]:.2f}')
+    confirm = confirmar("Você gostaria de visualizar o gráfico do investimento? ", confirm=settings.CONFIRM, goto=menu)
+    if confirm in affirmations:
+        plt.grid(color='gray', linestyle='-.', linewidth=0.5)
+        plt.xlabel('Tempo (meses)')
+        plt.ylabel('Investimento')
+        plt.plot(range(invest_tempom+1), invest)
+        plt.show()
 
 
 @login_required
