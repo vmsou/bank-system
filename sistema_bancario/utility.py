@@ -67,8 +67,8 @@ def confirmar(mensagem, tipo=str, confirm=True, validation=None, goto=None):
     return valor
 
 
-def loading(message="Carregando", min=0, max=100, step=1, delay=0.01):
-    for i in range(min, max+1, step):
+def loading(message="Carregando", minimo=0, maximo=100, step=1, delay=0.01):
+    for i in range(minimo, maximo+1, step):
         print(f"\r{message}... {i}%", end='', flush=True)
         sleep(delay)
     print()

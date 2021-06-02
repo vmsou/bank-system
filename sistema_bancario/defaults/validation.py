@@ -35,7 +35,7 @@ def check_phone(phone_number):
     """TODO: Usar regex para identificar validade do telefone"""
     phoneOK = False
 
-    if 10 > len(phone_number) >= 8:
+    if 14 > len(phone_number) >= 8:
         phoneOK = True
     else:
         phoneOK = False
