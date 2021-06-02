@@ -27,11 +27,11 @@ def cadastrar_conta():
     print(f"{f'> Cadastrar Conta ID: {conta_id} <':^30s}")
     print(f"{'':-^30s}")
 
-    name = confirmar("Nome Completo: ", confirm=settings.CONFIRM, goto=menu)
-    job = confirmar("Profissão: ", confirm=settings.CONFIRM, goto=menu)
+    name = confirmar("Nome Completo: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_name)
+    job = confirmar("Profissão: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_job)
     renda = confirmar("Renda Mensal: ", float, confirm=settings.CONFIRM, validation=validation.check_income, goto=menu)
-    address = confirmar("Endereço: ", confirm=settings.CONFIRM, goto=menu)
-    telefone = confirmar("Telefone: ", confirm=settings.CONFIRM, goto=menu)
+    address = confirmar("Endereço: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_address)
+    telefone = confirmar("Telefone: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_phone)
     senha = confirmar("Senha: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_password)
     cadastrar = input("Cadastrar Conta (s/n)? ")
 

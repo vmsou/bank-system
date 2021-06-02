@@ -28,7 +28,7 @@ def login_required(func):
 def saque():
     saldo = read_query(local_data.connection, user_by_id.format("balance", local_data.id))[0][0]
     print(f"Saldo: R${saldo}")
-    amount = confirmar("Sacar: R$", tipo=float, confirm=settings.CONFIRM, goto=menu)
+    amount = confirmar("Sacar: R$", tipo=float, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
     if saldo >= amount >= 0:
         execute_query(local_data.connection, update_info.format("balance", saldo - amount, local_data.id))
         ConsoleLogger.log(f"R${amount} retirados da conta.")
@@ -94,8 +94,8 @@ def simular():
 
 @login_required
 def transferir():
-    receiver = confirmar("ID Recebedor: ", int, settings.CONFIRM, goto=menu)
-    amount = confirmar("Quantidade R$", float, settings.CONFIRM, goto=menu)
+    receiver = confirmar("ID Recebedor: ", int, settings.CONFIRM, goto=menu, validation=validation.check_income)
+    amount = confirmar("Quantidade R$", float, settings.CONFIRM, goto=menu, validation=validation.check_income)
     desc = input("Comentario: ")
     print(receiver, amount)
     if not transaction(local_data.connection, local_data.id, receiver, amount, desc):

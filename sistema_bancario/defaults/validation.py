@@ -16,7 +16,7 @@ def check_name(name):
 
 def check_job(title):
     """TODO: Verificar se profissão é valida [Talvez não seja necessário]"""
-    ...
+    return True
 
 
 def check_income(income):
@@ -28,7 +28,7 @@ def check_income(income):
 
 def check_address(address):
     """TODO: Verificar se endereço é valido [Pode ser OPCIONAL]"""
-    ...
+    return True
 
 
 def check_phone(phone_number):
