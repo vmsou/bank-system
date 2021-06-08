@@ -1,5 +1,5 @@
 import argparse
-# import hashlib  # Para fazer o hash da senha
+import hashlib  # Para fazer o hash da senha
 import sys
 
 from database import create_connection, read_query, insert_user, execute_query, DBLogger
@@ -82,7 +82,9 @@ def mudar_senha():
     user = read_query(local_data.connection, user_by_id.format('name', conta_id))[0][0]
     ConsoleLogger.log(f"Mudando senha do usuario: {user}")
     nova_senha = confirmar("Nova senha: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_password)
-    execute_query(local_data.connection, update_info.format('password', nova_senha, conta_id))
+    hash_senha = bytes(nova_senha, "utf-8")
+    sha256_senha = hashlib.sha256(hash_senha).hexdigest()
+    execute_query(local_data.connection, update_info.format('password', sha256_senha, conta_id))
     ConsoleLogger.log("Senha mudada.")
 
 

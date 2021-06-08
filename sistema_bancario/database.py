@@ -1,3 +1,4 @@
+import hashlib
 import sqlite3
 
 from utility import Logger, loading
@@ -121,14 +122,16 @@ def transaction(connection, sender, receiver, amount, desc="NULL"):
     return False
 
 
-def check_login(connection, id, senha):
+def check_login(connection, user_id, senha):
     loading("Verificando Login")  # Basicamente enfeite, o login é verificado de forma rápida
     try:
-        password = read_query(connection, user_by_id.format("password", id))[0][0]
+        senha = bytes(senha, "utf-8")
+        sha256_pass = hashlib.sha256(senha).hexdigest()
+        password = read_query(connection, user_by_id.format("password", user_id))[0][0]
     except IndexError:
         return False
     else:
-        if password == senha:
+        if password == sha256_pass:
             return True
         return False
 
