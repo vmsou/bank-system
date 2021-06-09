@@ -2,7 +2,7 @@
 Segundo Trabalho Discente Efetivo
 
 # Grupo - Incoêrencia Algorítmica
-* Vinicius Marques
+* Vinicius Marques da Silva Oliveira
 * Leonardo Matthew Knight
 * Leonardo Scanavacca Falango
 
