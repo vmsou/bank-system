@@ -33,15 +33,19 @@ def cadastrar_conta():
     address = confirmar("Endereço: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_address)
     telefone = confirmar("Telefone: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_phone)
     senha = confirmar("Senha: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_password)
+    senha = bytes(senha, "utf-8")
+    senhahash = hashlib.sha256(senha).hexdigest()
     cadastrar = input("Cadastrar Conta (s/n)? ")
 
     if cadastrar.lower() in affirmations:
-        dados = (name, job, renda, address, telefone, senha)
+        dados = (name, job, renda, address, telefone, senhahash)
         ConsoleLogger.log("Cadastrando...")
         insert_user(local_data.connection, dados)
         ConsoleLogger.log("Cadastrado!")
     else:
         ConsoleLogger.log("Cancelado.")
+
+
 
 
 def buscar_conta():
