@@ -3,7 +3,7 @@ Segundo Trabalho Discente Efetivo
 
 # Grupo - Incoêrencia Algorítmica
 * Vinicius Marques
-* ...
+* Leonardo Matthew Knight
 * ...
 
 ## Sobre o Projeto
