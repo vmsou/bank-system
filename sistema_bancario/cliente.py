@@ -26,6 +26,7 @@ def login_required(func):
 
 @login_required
 def saque():
+    print("[ Sacar ]".center(70, "-"))
     saldo = read_query(local_data.connection, user_by_id.format("balance", local_data.id))[0][0]
     print(f"Saldo: R${saldo}")
     amount = confirmar("Sacar: R$", tipo=float, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
@@ -38,6 +39,7 @@ def saque():
 
 @login_required
 def deposito():
+    print("[ Deposito ]".center(70, "-"))
     while True:
         saldo = read_query(local_data.connection, user_by_id.format("balance", local_data.id))[0][0]
         print(f"Saldo: R${saldo}")
@@ -52,16 +54,17 @@ def deposito():
 
 @login_required
 def visualizar():
+    print("[ Visualizar ]".center(70, "-"))
     conta = read_query(local_data.connection, user_by_id.format("id, name, balance", local_data.id))[0]
     conta_id = conta[0]
     nome = conta[1]
     saldo = conta[2]
-    print("-" * 70)
     print(f"Nome: {nome}\tConta Corrente: {conta_id}\tSaldo: {saldo}")
 
 
 @login_required
 def simular():
+    print("[ Simular ]".center(70, "-"))
     invest = [confirmar("Valor do investimento inicial: R$", tipo=float, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)]
     invest_tempom = confirmar("O tempo de investimento em meses: ", tipo=int, confirm=settings.CONFIRM, goto=menu, validation=validation.check_income)
     if invest_tempom / 12 >= 5:
@@ -94,6 +97,7 @@ def simular():
 
 @login_required
 def transferir():
+    print("[ Transferir ]".center(70, "-"))
     receiver = confirmar("ID Recebedor: ", int, settings.CONFIRM, goto=menu, validation=validation.check_income)
     amount = confirmar("Quantidade R$", float, settings.CONFIRM, goto=menu, validation=validation.check_income)
     desc = input("Comentario: ")
@@ -103,6 +107,7 @@ def transferir():
 
 
 def config():
+    print("[ Configurações ]".center(70, "-"))
     confirm = input("Desativar confirmações? (s, n): ")
     settings.CONFIRM = True
     if confirm.lower() in affirmations:
@@ -115,7 +120,7 @@ def config():
 
 
 def login():
-    print("-" * 70)
+    print("[ Login ]".center(70, "-"))
     conta_id = confirmar("Conta Corrente: ", int, goto=menu)
     senha = confirmar("Senha: ", goto=menu)
     print("-" * 70)
@@ -138,7 +143,8 @@ def logout():
 
 
 def info():
-    print("Informações sobre o projeto...")
+    print("[ Informações ]".center(70, "-"))
+    print("TDE2 Realizado por:\nVinicius Marques\nLeonardo Knight\nLeonardo Falango")
 
 
 def sair():
@@ -170,7 +176,7 @@ def menu():
     while True:
         action_name, action_dict = options()
 
-        print("Menu".center(70, "-"))
+        print("[ Menu ]".center(70, "-"))
         for i, j in enumerate(action_name, start=1):
             print(f"[{i}] {j}")
 

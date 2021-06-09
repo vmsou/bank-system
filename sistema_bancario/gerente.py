@@ -23,9 +23,7 @@ def gen_id():
 def cadastrar_conta():
     conta_id = gen_id()
 
-    print(f"{'':-^30s}")
-    print(f"{f'> Cadastrar Conta ID: {conta_id} <':^30s}")
-    print(f"{'':-^30s}")
+    print(f"[ Cadastrar Conta ID: {conta_id} ]".center(70, "-"))
 
     name = confirmar("Nome Completo: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_name)
     job = confirmar("Profissão: ", confirm=settings.CONFIRM, goto=menu, validation=validation.check_job)
@@ -46,15 +44,12 @@ def cadastrar_conta():
         ConsoleLogger.log("Cancelado.")
 
 
-
-
 def buscar_conta():
+    print("[ Buscar ]".center(70, "-"))
     info = "*"
     escolha = confirmar("Buscar por ID ou Nome? ", confirm=settings.CONFIRM, goto=menu)
 
-
     if not escolha:
-
         menu()
 
     users = None
@@ -95,6 +90,7 @@ def buscar_conta():
 
 
 def mudar_senha():
+    print("[ Mudar Senha ]".center(70, "-"))
     conta_id = confirmar('ID: ', confirm=settings.CONFIRM, goto=menu)
     user = read_query(local_data.connection, user_by_id.format('name', conta_id))[0][0]
     ConsoleLogger.log(f"Mudando senha do usuario: {user}")
@@ -106,6 +102,7 @@ def mudar_senha():
 
 
 def config():
+    print("[ Configurações ]".center(70, "-"))
     confirm = input("Desativar confirmações? (s, n): ")
     settings.CONFIRM = True
     if confirm.lower() in affirmations:
@@ -136,7 +133,7 @@ def menu():
     while True:
         action_name, action_dict = options()
 
-        print("Menu".center(70, "-"))
+        print("[ Menu ]".center(70, "-"))
         for i, j in enumerate(action_name, start=1):
             print(f"[{i}] {j}")
 
