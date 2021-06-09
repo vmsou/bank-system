@@ -47,7 +47,10 @@ def cadastrar_conta():
 def buscar_conta():
     info = "*"
     escolha = confirmar("Buscar por ID ou Nome? ", confirm=settings.CONFIRM, goto=menu)
+
+
     if not escolha:
+
         menu()
 
     users = None
@@ -63,6 +66,16 @@ def buscar_conta():
             menu()
         ConsoleLogger.log("Buscando pelo nome...")
         users = read_query(local_data.connection, user_by_name.format(info, nome))
+    elif escolha.isalpha():
+        if not escolha:
+            menu()
+        ConsoleLogger.log("Buscando pelo nome...")
+        users = read_query(local_data.connection, user_by_name.format(info, escolha))
+    else:
+        if not escolha:
+            menu()
+        ConsoleLogger.log("Buscando por ID...")
+        users = read_query(local_data.connection, user_by_id.format(info, escolha))
 
     if users:
         print(f"Encontrado: {len(users)}")
