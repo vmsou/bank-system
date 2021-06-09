@@ -4,7 +4,7 @@ Segundo Trabalho Discente Efetivo
 # Grupo - Incoêrencia Algorítmica
 * Vinicius Marques
 * Leonardo Matthew Knight
-* ...
+* Leonardo Scanavacca Falango
 
 ## Sobre o Projeto
 Sistema bancário, em que existem o sistema separado para o gerente e para o cliente utilizado através de linhas de comando
